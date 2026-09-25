@@ -28,7 +28,13 @@ h1, h2, h3 {
 .animate-fadeIn {
   animation: fadeIn .5s ease;
 }
-
+html, body {
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  background-color: #ffffff;
+  color-scheme: light;
+}
 
 
 
