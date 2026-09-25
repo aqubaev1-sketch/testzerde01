@@ -10,6 +10,24 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const auth = betterAuth({
+    rateLimit: {
+        window: 60, // окно в секундах
+        max: 30, // сколько запросов разрешено за окно по умолчанию
+        customRules: {
+            "/sign-in/social": {
+                window: 60,
+                max: 20,
+            },
+            "/sign-in/email": {
+                window: 60,
+                max: 20,
+            },
+            "/sign-up/email": {
+                window: 60,
+                max: 10,
+            },
+        },
+    },
     emailVerification: {
         sendVerificationEmail: async ({ user, url }) => {
             await resend.emails.send({
