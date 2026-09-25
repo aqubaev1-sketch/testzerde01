@@ -170,9 +170,10 @@ export type AiQuizResult = typeof aiQuizResults.$inferSelect;
 export type InsertAiQuizResult = typeof aiQuizResults.$inferInsert;
 
 export const schema = {
-    user, session, account, verification,
+   user, session, account, verification,
     notebooks, notes, notebookRelations, noteRelations,
     subjects, questions, attempts,
     subjectRelations, questionRelations, attemptRelations,
     aiQuizResults, aiQuizResultRelations,
+    
 };

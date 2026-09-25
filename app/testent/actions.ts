@@ -7,6 +7,7 @@ import { eq, inArray, and } from 'drizzle-orm';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { pickRandomQuestions } from '@/db/queries';
+import type { InitialData, ServerQuestion } from './TestEContent';
 
 const TOTAL_SECONDS = 5400; // 1.5 часа — держим синхронно с фронтом
 
@@ -17,7 +18,7 @@ async function requireUser() {
 }
 
 /** Собирает данные попытки в безопасном для клиента виде (без correctOptionId) */
-async function serializeAttempt(attemptId: string) {
+async function serializeAttempt(attemptId: string): Promise<InitialData> {
   const [attempt] = await db.select().from(attempts).where(eq(attempts.id, attemptId));
   if (!attempt) throw new Error('Attempt not found');
 
@@ -25,11 +26,11 @@ async function serializeAttempt(attemptId: string) {
   const rows = await db.select().from(questions).where(inArray(questions.id, ids));
 
   const byId = Object.fromEntries(rows.map((q) => [q.id, q]));
-  const orderedQuestions = ids.map((id) => {
+  const orderedQuestions: ServerQuestion[] = ids.map((id) => {
     const q = byId[id];
     return {
       id: q.id,
-      subjectId: q.subjectId,
+      subjectId: q.subjectId as ServerQuestion['subjectId'],
       questionText: q.questionText,
       options: q.options as { id: string; text: string }[],
     };
@@ -40,7 +41,7 @@ async function serializeAttempt(attemptId: string) {
     questions: orderedQuestions,
     answers: attempt.answers as Record<string, string>,
     startedAt: attempt.startedAt.toISOString(),
-    status: attempt.status,
+    status: attempt.status as InitialData['status'],
     score: attempt.score,
     totalSeconds: TOTAL_SECONDS,
   };
