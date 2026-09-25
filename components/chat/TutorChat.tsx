@@ -7,7 +7,7 @@ interface Message {
   content: string;
 }
 
-const WEBHOOK_URL = 'http://89.219.32.86:5678/webhook/brand-bot';
+const WEBHOOK_URL = 'https://superfbfb.app.n8n.cloud/webhook/626b7d2f-9e6e-4401-8295-a75bf7f521e3';
 
 export default function TutorChat() {
   const [messages, setMessages] = useState<Message[]>([]);

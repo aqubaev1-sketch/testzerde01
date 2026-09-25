@@ -146,9 +146,33 @@ export type InsertAttempt = typeof attempts.$inferInsert;
 
 // ===== КОНЕЦ НОВОГО =====
 
+// ===== AI ТЕСТ НӘТИЖЕЛЕРІ =====
+
+export const aiQuizResults = pgTable("ai_quiz_results", {
+    id: text('id').primaryKey().default(sql`gen_random_uuid()`),
+    userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
+    topic: text('topic').notNull(),              // пайдаланушы жазған тақырып
+    score: integer('score').notNull(),           // жинаған балл
+    total: integer('total').notNull(),           // жалпы сұрақ саны
+    answers: jsonb('answers').notNull(),         // { [questionId]: "optionText" }
+    questions: jsonb('questions').notNull(),     // толық сұрақтар (кейін шолу үшін)
+    createdAt: timestamp('created_at').$defaultFn(() => new Date()).notNull(),
+});
+
+export const aiQuizResultRelations = relations(aiQuizResults, ({ one }) => ({
+    user: one(user, {
+        fields: [aiQuizResults.userId],
+        references: [user.id]
+    })
+}));
+
+export type AiQuizResult = typeof aiQuizResults.$inferSelect;
+export type InsertAiQuizResult = typeof aiQuizResults.$inferInsert;
+
 export const schema = {
     user, session, account, verification,
     notebooks, notes, notebookRelations, noteRelations,
     subjects, questions, attempts,
     subjectRelations, questionRelations, attemptRelations,
+    aiQuizResults, aiQuizResultRelations,
 };

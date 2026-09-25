@@ -1,3 +1,4 @@
+
 "use client";
 
 import { z } from "zod";
@@ -26,12 +27,12 @@ import { authClient } from "@/lib/auth-client";
 const formSchema = z.object({
   email: z
     .string()
-    .min(1, "Введите электронную почту")
-    .email("Введите корректный адрес электронной почты"),
+    .min(1, "Электрондық поштаңызды енгізіңіз")
+    .email("Дұрыс электрондық пошта мекенжайын енгізіңіз"),
 
   password: z
     .string()
-    .min(8, "Пароль должен содержать минимум 8 символов"),
+    .min(8, "Құпиясөз кемінде 8 таңбадан тұруы керек"),
 });
 
 function GoogleIcon() {
@@ -90,7 +91,7 @@ export function LoginForm({
       });
     } catch (error) {
       console.error(error);
-      toast.error("Не удалось войти через Google");
+      toast.error("Google арқылы кіру мүмкін болмады");
       setIsGoogleLoading(false);
     }
   };
@@ -113,7 +114,7 @@ export function LoginForm({
       }
     } catch (error) {
       console.error(error);
-      toast.error("Произошла ошибка. Попробуйте ещё раз.");
+      toast.error("Қате орын алды. Қайтадан көріңіз.");
     } finally {
       setIsLoading(false);
     }
@@ -125,7 +126,7 @@ export function LoginForm({
       {...props}
     >
       <div className="w-full">
-        {/* Заголовок */}
+        {/* Тақырып */}
         <div className="mb-8 text-center">
           <h1
             className="
@@ -138,12 +139,12 @@ export function LoginForm({
               font-['Space_Grotesk',sans-serif]
             "
           >
-            Вход
+            Кіру
           </h1>
 
           <p className="text-sm text-[#6a7282]">
-            Войдите, чтобы открыть профиль и продолжить
-            подготовку к ҰБТ
+            Профильге кіру және ҰБТ-ға дайындықты жалғастыру үшін
+            жүйеге кіріңіз
           </p>
         </div>
 
@@ -153,7 +154,7 @@ export function LoginForm({
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-5"
           >
-            {/* Email */}
+            {/* Электрондық пошта */}
             <FormField
               control={form.control}
               name="email"
@@ -170,7 +171,7 @@ export function LoginForm({
                       text-[#6a7282]
                     "
                   >
-                    Электронная почта
+                    Электрондық пошта
                   </FormLabel>
 
                   <FormControl>
@@ -202,7 +203,7 @@ export function LoginForm({
               )}
             />
 
-            {/* Пароль */}
+            {/* Құпиясөз */}
             <FormField
               control={form.control}
               name="password"
@@ -218,7 +219,7 @@ export function LoginForm({
                         text-[#6a7282]
                       "
                     >
-                      Пароль
+                      Құпиясөз
                     </FormLabel>
 
                     <Link
@@ -231,7 +232,7 @@ export function LoginForm({
                         hover:underline
                       "
                     >
-                      Забыли пароль?
+                      Құпиясөзді ұмыттыңыз ба?
                     </Link>
                   </div>
 
@@ -276,8 +277,8 @@ export function LoginForm({
                         "
                         aria-label={
                           showPassword
-                            ? "Скрыть пароль"
-                            : "Показать пароль"
+                            ? "Құпиясөзді жасыру"
+                            : "Құпиясөзді көрсету"
                         }
                       >
                         {showPassword ? (
@@ -294,7 +295,7 @@ export function LoginForm({
               )}
             />
 
-            {/* Войти */}
+            {/* Кіру */}
             <Button
               type="submit"
               disabled={isLoading || isGoogleLoading}
@@ -320,16 +321,16 @@ export function LoginForm({
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Входим...
+                  Кіру...
                 </>
               ) : (
-                "Войти"
+                "Кіру"
               )}
             </Button>
           </form>
         </Form>
 
-        {/* Разделитель */}
+        {/* Бөлгіш */}
         <div className="my-6 flex items-center gap-4">
           <div className="h-px flex-1 bg-[#e5e7eb]" />
 
@@ -341,13 +342,13 @@ export function LoginForm({
               text-[#6a7282]
             "
           >
-            или
+            немесе
           </span>
 
           <div className="h-px flex-1 bg-[#e5e7eb]" />
         </div>
 
-        {/* Google */}
+        {/* Google арқылы кіру */}
         <button
           type="button"
           onClick={signInWithGoogle}
@@ -380,13 +381,13 @@ export function LoginForm({
           )}
 
           {isGoogleLoading
-            ? "Подключаемся..."
-            : "Войти через Google"}
+            ? "Қосылуда..."
+            : "Google арқылы кіру"}
         </button>
 
-        {/* Регистрация */}
+        {/* Тіркелу */}
         <p className="mt-8 text-center text-sm text-[#6a7282]">
-          Нет аккаунта?{" "}
+          Аккаунтыңыз жоқ па?{" "}
           <Link
             href="/signup"
             className="
@@ -395,7 +396,7 @@ export function LoginForm({
               hover:underline
             "
           >
-            Зарегистрироваться
+            Тіркелу
           </Link>
         </p>
       </div>

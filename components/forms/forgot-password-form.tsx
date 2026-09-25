@@ -1,3 +1,4 @@
+
 "use client";
 
 import { z } from "zod";
@@ -24,8 +25,8 @@ import { authClient } from "@/lib/auth-client";
 const formSchema = z.object({
   email: z
     .string()
-    .min(1, "Введите электронную почту")
-    .email("Введите корректный адрес электронной почты"),
+    .min(1, "Электрондық поштаңызды енгізіңіз")
+    .email("Электрондық пошта мекенжайын дұрыс енгізіңіз"),
 });
 
 export function ForgotPasswordForm({
@@ -51,13 +52,15 @@ export function ForgotPasswordForm({
       });
 
       if (!error) {
-        toast.success("Проверьте почту — мы отправили ссылку для сброса пароля.");
+        toast.success(
+          "Поштаңызды тексеріңіз — құпиясөзді қалпына келтіру сілтемесін жібердік."
+        );
       } else {
         toast.error(error.message);
       }
     } catch (error) {
       console.error(error);
-      toast.error("Произошла ошибка. Попробуйте ещё раз.");
+      toast.error("Қате орын алды. Қайталап көріңіз.");
     } finally {
       setIsLoading(false);
     }
@@ -69,7 +72,7 @@ export function ForgotPasswordForm({
       {...props}
     >
       <div className="w-full">
-        {/* Заголовок */}
+        {/* Тақырып */}
         <div className="mb-8 text-center">
           <h1
             className="
@@ -82,11 +85,11 @@ export function ForgotPasswordForm({
               font-['Space_Grotesk',sans-serif]
             "
           >
-            Забыли пароль?
+            Құпиясөзді ұмыттыңыз ба?
           </h1>
 
           <p className="text-sm text-[#6a7282]">
-            Введите почту — мы отправим ссылку для сброса пароля
+            Поштаңызды енгізіңіз — құпиясөзді қалпына келтіру сілтемесін жібереміз
           </p>
         </div>
 
@@ -113,7 +116,7 @@ export function ForgotPasswordForm({
                       text-[#6a7282]
                     "
                   >
-                    Электронная почта
+                    Электрондық пошта
                   </FormLabel>
 
                   <FormControl>
@@ -145,7 +148,7 @@ export function ForgotPasswordForm({
               )}
             />
 
-            {/* Кнопка */}
+            {/* Батырма */}
             <Button
               type="submit"
               disabled={isLoading}
@@ -171,16 +174,16 @@ export function ForgotPasswordForm({
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Отправляем...
+                  Жіберілуде...
                 </>
               ) : (
-                "Сбросить пароль"
+                "Құпиясөзді қалпына келтіру"
               )}
             </Button>
           </form>
         </Form>
 
-        {/* Ссылка назад на вход */}
+        {/* Кіру бетіне қайта оралу */}
         <div className="mt-8 text-center text-sm text-[#6a7282]">
           <Link
             href="/login"
@@ -195,10 +198,11 @@ export function ForgotPasswordForm({
             "
           >
             <ArrowLeft className="h-3.5 w-3.5" />
-            Вернуться ко входу
+            Кіру бетіне оралу
           </Link>
         </div>
       </div>
     </div>
   );
 }
+

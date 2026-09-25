@@ -57,7 +57,12 @@ export default function Header() {
               <ul className="w-full flex flex-col items-center gap-0 m-0 p-0 list-none md:flex-row md:justify-center md:gap-10">
                 <li>
                   <Link href="/ai-chat" className={navLinkClass} onClick={closeMenu}>
-                    AI Агент
+                    AI
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/testsss" className={navLinkClass} onClick={closeMenu}>
+                    AI tutor
                   </Link>
                 </li>
                 <li>
@@ -67,7 +72,7 @@ export default function Header() {
                 </li>
                 <li>
                   <Link href="/profile" className={navLinkClass} onClick={closeMenu}>
-                    Профиль
+                    Жеке кабинет
                   </Link>
                 </li>
 
@@ -114,7 +119,7 @@ export default function Header() {
                       onClick={handleLogout}
                       className="inline-flex items-center justify-center px-6 h-[calc(100%-12px)] tracking-[1px] text-[14px] font-bold uppercase bg-[#6960C5] text-white rounded-[15px] hover:opacity-90 transition-opacity font-['Inter',sans-serif]"
                     >
-                      Выйти
+                      Шығу
                     </button>
                   </div>
                 ) : (
@@ -122,7 +127,7 @@ export default function Header() {
                     onClick={handleSignIn}
                     className="inline-flex items-center justify-center px-6 h-[calc(100%-12px)] tracking-[1px] text-[14px] font-bold uppercase bg-[#6960C5] text-white rounded-[15px] hover:opacity-90 transition-opacity font-['Inter',sans-serif]"
                   >
-                    Войти
+                    Кіру
                   </button>
                 )
               )}

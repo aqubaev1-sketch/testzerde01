@@ -35,11 +35,11 @@ export function LandingHero() {
 
           {/* Main Headline */}
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight leading-[1.15] font-sans">
-            ҰБТ-ға дайындықтың жаңа дәуірі: <br className="hidden sm:inline" />
+            ҰБТ-ға дайындықтың  <br className="hidden sm:inline" />
             <span className="text-indigo-600 underline decoration-indigo-200 underline-offset-8">
-              ZERDE AI
+              дербес AI-агенті
             </span>{' '}
-            + QYZPU Стандарты
+            
           </h1>
 
           {/* Subheading */}

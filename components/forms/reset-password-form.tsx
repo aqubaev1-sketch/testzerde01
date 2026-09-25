@@ -1,3 +1,4 @@
+
 "use client";
 
 import { z } from "zod";
@@ -25,11 +26,11 @@ import { authClient } from "@/lib/auth-client";
 const formSchema = z.object({
   password: z
     .string()
-    .min(8, "Пароль должен содержать минимум 8 символов"),
+    .min(8, "Құпиясөз кемінде 8 таңбадан тұруы керек"),
 
   confirmPassword: z
     .string()
-    .min(8, "Пароль должен содержать минимум 8 символов"),
+    .min(8, "Құпиясөз кемінде 8 таңбадан тұруы керек"),
 });
 
 export function ResetPasswordForm({
@@ -58,7 +59,7 @@ export function ResetPasswordForm({
       setIsLoading(true);
 
       if (values.password !== values.confirmPassword) {
-        toast.error("Пароли не совпадают");
+        toast.error("Құпиясөздер сәйкес келмейді");
         return;
       }
 
@@ -68,14 +69,14 @@ export function ResetPasswordForm({
       });
 
       if (!error) {
-        toast.success("Пароль успешно изменён");
+        toast.success("Құпиясөз сәтті өзгертілді");
         router.push("/login");
       } else {
         toast.error(error.message);
       }
     } catch (error) {
       console.error(error);
-      toast.error("Произошла ошибка. Попробуйте ещё раз.");
+      toast.error("Қате орын алды. Қайталап көріңіз.");
     } finally {
       setIsLoading(false);
     }
@@ -87,7 +88,7 @@ export function ResetPasswordForm({
       {...props}
     >
       <div className="w-full">
-        {/* Заголовок */}
+        {/* Тақырып */}
         <div className="mb-8 text-center">
           <h1
             className="
@@ -100,11 +101,11 @@ export function ResetPasswordForm({
               font-['Space_Grotesk',sans-serif]
             "
           >
-            Новый пароль
+            Жаңа құпиясөз
           </h1>
 
           <p className="text-sm text-[#6a7282]">
-            Придумайте новый пароль для входа в аккаунт
+            Аккаунтқа кіру үшін жаңа құпиясөз ойлап табыңыз
           </p>
         </div>
 
@@ -114,7 +115,7 @@ export function ResetPasswordForm({
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-5"
           >
-            {/* Пароль */}
+            {/* Құпиясөз */}
             <FormField
               control={form.control}
               name="password"
@@ -131,7 +132,7 @@ export function ResetPasswordForm({
                       text-[#6a7282]
                     "
                   >
-                    Новый пароль
+                    Жаңа құпиясөз
                   </FormLabel>
 
                   <FormControl>
@@ -175,8 +176,8 @@ export function ResetPasswordForm({
                         "
                         aria-label={
                           showPassword
-                            ? "Скрыть пароль"
-                            : "Показать пароль"
+                            ? "Құпиясөзді жасыру"
+                            : "Құпиясөзді көрсету"
                         }
                       >
                         {showPassword ? (
@@ -193,7 +194,7 @@ export function ResetPasswordForm({
               )}
             />
 
-            {/* Подтверждение пароля */}
+            {/* Құпиясөзді растау */}
             <FormField
               control={form.control}
               name="confirmPassword"
@@ -210,7 +211,7 @@ export function ResetPasswordForm({
                       text-[#6a7282]
                     "
                   >
-                    Подтвердите пароль
+                    Құпиясөзді растаңыз
                   </FormLabel>
 
                   <FormControl>
@@ -254,8 +255,8 @@ export function ResetPasswordForm({
                         "
                         aria-label={
                           showConfirm
-                            ? "Скрыть пароль"
-                            : "Показать пароль"
+                            ? "Құпиясөзді жасыру"
+                            : "Құпиясөзді көрсету"
                         }
                       >
                         {showConfirm ? (
@@ -272,7 +273,7 @@ export function ResetPasswordForm({
               )}
             />
 
-            {/* Кнопка */}
+            {/* Батырма */}
             <Button
               type="submit"
               disabled={isLoading}
@@ -298,16 +299,16 @@ export function ResetPasswordForm({
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Сохраняем...
+                  Сақталуда...
                 </>
               ) : (
-                "Сохранить пароль"
+                "Құпиясөзді сақтау"
               )}
             </Button>
           </form>
         </Form>
 
-        {/* Ссылка назад на вход */}
+        {/* Кіру бетіне қайта оралу */}
         <div className="mt-8 text-center text-sm text-[#6a7282]">
           <Link
             href="/login"
@@ -322,10 +323,11 @@ export function ResetPasswordForm({
             "
           >
             <ArrowLeft className="h-3.5 w-3.5" />
-            Вернуться ко входу
+            Кіру бетіне оралу
           </Link>
         </div>
       </div>
     </div>
   );
 }
+

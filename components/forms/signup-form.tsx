@@ -1,3 +1,4 @@
+
 "use client";
 
 import { z } from "zod";
@@ -25,20 +26,20 @@ import { authClient } from "@/lib/auth-client";
 const formSchema = z.object({
   name: z
     .string()
-    .min(1, "Введите имя"),
+    .min(1, "Атыңызды енгізіңіз"),
 
   email: z
     .string()
-    .min(1, "Введите электронную почту")
-    .email("Введите корректный адрес электронной почты"),
+    .min(1, "Электрондық поштаңызды енгізіңіз")
+    .email("Электрондық пошта мекенжайын дұрыс енгізіңіз"),
 
   password: z
     .string()
-    .min(8, "Пароль должен содержать минимум 8 символов"),
+    .min(8, "Құпиясөз кемінде 8 таңбадан тұруы керек"),
 
   confirmPassword: z
     .string()
-    .min(8, "Пароль должен содержать минимум 8 символов"),
+    .min(8, "Құпиясөз кемінде 8 таңбадан тұруы керек"),
 });
 
 function GoogleIcon() {
@@ -86,7 +87,7 @@ export function SignupForm({
       setIsLoading(true);
 
       if (values.password !== values.confirmPassword) {
-        toast.error("Пароли не совпадают");
+        toast.error("Құпиясөздер сәйкес келмейді");
         return;
       }
 
@@ -97,13 +98,13 @@ export function SignupForm({
       );
 
       if (response.success) {
-        toast.success("Проверьте почту для подтверждения аккаунта.");
+        toast.success("Аккаунтыңызды растау үшін поштаңызды тексеріңіз.");
       } else {
         toast.error(response.message);
       }
     } catch (error) {
       console.error(error);
-      toast.error("Произошла ошибка. Попробуйте ещё раз.");
+      toast.error("Қате орын алды. Қайталап көріңіз.");
     } finally {
       setIsLoading(false);
     }
@@ -119,7 +120,7 @@ export function SignupForm({
       });
     } catch (error) {
       console.error(error);
-      toast.error("Не удалось зарегистрироваться через Google");
+      toast.error("Google арқылы тіркелу мүмкін болмады");
       setIsGoogleLoading(false);
     }
   };
@@ -130,7 +131,7 @@ export function SignupForm({
       {...props}
     >
       <div className="w-full">
-        {/* Заголовок */}
+        {/* Тақырып */}
         <div className="mb-8 text-center">
           <h1
             className="
@@ -143,11 +144,11 @@ export function SignupForm({
               font-['Space_Grotesk',sans-serif]
             "
           >
-            Регистрация
+            Тіркелу
           </h1>
 
           <p className="text-sm text-[#6a7282]">
-            Создайте аккаунт и начните подготовку к ҰБТ
+            Аккаунт құрып, ҰБТ-ға дайындықты бастаңыз
           </p>
         </div>
 
@@ -157,7 +158,7 @@ export function SignupForm({
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-5"
           >
-            {/* Имя */}
+            {/* Аты */}
             <FormField
               control={form.control}
               name="name"
@@ -174,7 +175,7 @@ export function SignupForm({
                       text-[#6a7282]
                     "
                   >
-                    Имя
+                    Аты-жөні
                   </FormLabel>
 
                   <FormControl>
@@ -223,7 +224,7 @@ export function SignupForm({
                       text-[#6a7282]
                     "
                   >
-                    Электронная почта
+                    Электрондық пошта
                   </FormLabel>
 
                   <FormControl>
@@ -255,7 +256,7 @@ export function SignupForm({
               )}
             />
 
-            {/* Пароль */}
+            {/* Құпиясөз */}
             <FormField
               control={form.control}
               name="password"
@@ -272,7 +273,7 @@ export function SignupForm({
                       text-[#6a7282]
                     "
                   >
-                    Пароль
+                    Құпиясөз
                   </FormLabel>
 
                   <FormControl>
@@ -304,7 +305,7 @@ export function SignupForm({
               )}
             />
 
-            {/* Подтверждение пароля */}
+            {/* Құпиясөзді растау */}
             <FormField
               control={form.control}
               name="confirmPassword"
@@ -321,7 +322,7 @@ export function SignupForm({
                       text-[#6a7282]
                     "
                   >
-                    Подтвердите пароль
+                    Құпиясөзді растаңыз
                   </FormLabel>
 
                   <FormControl>
@@ -353,7 +354,7 @@ export function SignupForm({
               )}
             />
 
-            {/* Кнопка регистрации */}
+            {/* Тіркелу батырмасы */}
             <Button
               type="submit"
               disabled={isLoading || isGoogleLoading}
@@ -379,16 +380,16 @@ export function SignupForm({
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Создаём...
+                  Құрылуда...
                 </>
               ) : (
-                "Зарегистрироваться"
+                "Тіркелу"
               )}
             </Button>
           </form>
         </Form>
 
-        {/* Разделитель */}
+        {/* Бөлгіш */}
         <div className="my-6 flex items-center gap-4">
           <div className="h-px flex-1 bg-[#e5e7eb]" />
 
@@ -400,7 +401,7 @@ export function SignupForm({
               text-[#6a7282]
             "
           >
-            или
+            немесе
           </span>
 
           <div className="h-px flex-1 bg-[#e5e7eb]" />
@@ -440,13 +441,13 @@ export function SignupForm({
           )}
 
           {isGoogleLoading
-            ? "Подключаемся..."
-            : "Зарегистрироваться через Google"}
+            ? "Қосылуда..."
+            : "Google арқылы тіркелу"}
         </button>
 
-        {/* Вход */}
+        {/* Кіру */}
         <p className="mt-8 text-center text-sm text-[#6a7282]">
-          Уже есть аккаунт?{" "}
+          Аккаунтыңыз бар ма?{" "}
           <Link
             href="/login"
             className="
@@ -455,10 +456,11 @@ export function SignupForm({
               hover:underline
             "
           >
-            Войти
+            Кіру
           </Link>
         </p>
       </div>
     </div>
   );
 }
+
