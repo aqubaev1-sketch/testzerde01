@@ -55,14 +55,10 @@ export default function Header() {
               `}
             >
               <ul className="w-full flex flex-col items-center gap-0 m-0 p-0 list-none md:flex-row md:justify-center md:gap-10">
-                <li>
-                  <Link href="/ai-chat" className={navLinkClass} onClick={closeMenu}>
-                    AI
-                  </Link>
-                </li>
+                
                 <li>
                   <Link href="/testsss" className={navLinkClass} onClick={closeMenu}>
-                    AI tutor
+                    AI 
                   </Link>
                 </li>
                 <li>

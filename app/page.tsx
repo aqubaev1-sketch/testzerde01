@@ -51,7 +51,7 @@ const SUBJECTS_LIST = [
 export default function Home() {
   return (
    <>
-   <div className="container py-12">
+   <div className="container py-12 pt-28">
     <LandingHero/>
    </div>
    </>

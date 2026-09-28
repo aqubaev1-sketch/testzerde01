@@ -7,6 +7,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Analytics } from "@vercel/analytics/react";
 import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
+import 'katex/dist/katex.min.css';
 
 
 const geistSans = Geist({

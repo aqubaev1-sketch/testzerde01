@@ -36,7 +36,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/" className="text-[#6a7282] hover:text-[#6960C5] text-sm transition-colors">
+                <Link href="/support" className="text-[#6a7282] hover:text-[#6960C5] text-sm transition-colors">
                   Поддержка и обратная связь
                 </Link>
               </li>

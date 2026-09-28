@@ -1,328 +1,334 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import {
   ArrowRight,
+  BarChart3,
+  Bot,
   Brain,
   CheckCircle2,
   GraduationCap,
-  BarChart3,
-  Target,
-  BookOpenCheck,
+  Timer,
+  X,
 } from 'lucide-react';
 import TutorChat from '@/components/chat/TutorChat';
 
+const STATS = [
+  { num: '140', label: 'максималды балл' },
+  { num: '94,2%', label: 'грант көрсеткіші' },
+  { num: '12 000+', label: 'типтік сұрақ' },
+  { num: '24/7', label: 'AI-репетитор онлайн' },
+];
+
+const DEMO_STEPS = [
+  { title: '1. Коэффициенттерді табамыз', body: 'a = 1,  b = −5,  c = 6' },
+  { title: '2. Дискриминант', body: 'D = b² − 4ac = 25 − 24 = 1' },
+  { title: '3. Түбірлер', body: 'x₁ = (5 − 1) / 2 = 2,   x₂ = (5 + 1) / 2 = 3' },
+];
+
 export function LandingHero() {
-  const router = useRouter();
   const [showTutor, setShowTutor] = useState(false);
 
+  useEffect(() => {
+    if (!showTutor) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setShowTutor(false);
+    window.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [showTutor]);
+
   return (
-    <div className="space-y-16 sm:space-y-24 py-8 sm:py-12">
+    <div className="space-y-16 py-8 font-sans sm:space-y-24 sm:py-12">
+      <style>{`
+        .demo-step{opacity:0;transform:translateY(6px);animation:demoIn .5s ease-out forwards}
+        @keyframes demoIn{to{opacity:1;transform:none}}
+        @media (prefers-reduced-motion:reduce){.demo-step{animation:none;opacity:1;transform:none}}
+      `}</style>
 
-      {/* Hero Header Section */}
-      <section className="relative overflow-hidden bg-white rounded-2xl border border-gray-100 p-6 sm:p-12 md:p-16 shadow-xs">
-        {/* Subtle grid pattern background */}
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px]" />
-
-        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6">
-
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold tracking-wide">
-            <span className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
-            <span>QYZPU УНИВЕРСИТЕТІНІҢ РЕСМИ AI ПЛАТФОРМАСЫ</span>
-          </div>
-
-          {/* Main Headline */}
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight leading-[1.15] font-sans">
-            ҰБТ-ға дайындықтың  <br className="hidden sm:inline" />
-            <span className="text-indigo-600 underline decoration-indigo-200 underline-offset-8">
-              дербес AI-агенті
-            </span>{' '}
-            
+      {/* ============================= HERO ============================= */}
+      <section className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
+        <div className="min-w-0">
+          <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
+            ҰБТ-ға дайындықтың дербес AI-агенті
           </h1>
 
-          {/* Subheading */}
-          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto font-normal leading-relaxed">
-            Қазақ ұлттық қыздар педагогикалық университетінің ғалымдары мен AI
-            инжинирингі біріккен цифрлық орта. Дербес оқыту, 24/7 AI-репетитор
-            және жеке кабинеттегі терең аналитика.
+          <p className="mt-5 max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
+            Қазақ ұлттық қыздар педагогикалық университетінің ғалымдары мен AI инженерлері жасаған
+            оқу ортасы. Дайын жауап емес, шешудің қадамдарын түсіндіретін репетитор және жеке
+            кабинетте нәтижеңіздің талдауы.
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
-            <button
-              onClick={() => router.push('/testent')}
-              className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm sm:text-base transition-all shadow-lg shadow-indigo-100 flex items-center justify-center gap-2 group"
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <Link
+              href="/testent"
+              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 active:scale-[0.98] focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-500/30 sm:text-base"
             >
-              <span>ҰБТ тест тапсыру</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
-
+              ҰБТ тест тапсыру
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
             <button
               onClick={() => setShowTutor(true)}
-              className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-900 font-semibold text-sm sm:text-base transition-all flex items-center justify-center gap-2"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-900 transition hover:border-indigo-300 hover:bg-indigo-50/50 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-500/20 sm:text-base"
             >
-              <Brain className="w-4 h-4 text-indigo-600" />
-              <span>ZERDE AI Репетитормен сөйлесу</span>
+              <Brain className="h-4 w-4 text-indigo-600" />
+              Репетитормен сөйлесу
             </button>
-
-            <button
-              onClick={() => router.push('/profile')}
-              className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white hover:bg-indigo-50/50 border border-indigo-200 text-indigo-900 font-semibold text-sm sm:text-base transition-all flex items-center justify-center gap-2"
+            <Link
+              href="/profile"
+              className="inline-flex items-center justify-center gap-2 px-2 py-2 text-sm font-semibold text-slate-600 transition hover:text-indigo-700 sm:text-base"
             >
-              <BarChart3 className="w-4 h-4 text-indigo-600" />
-              <span>Жеке кабинет</span>
-            </button>
+              <BarChart3 className="h-4 w-4" />
+              Жеке кабинет
+            </Link>
           </div>
 
-          {/* Feature highlights bullets */}
-          <div className="pt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs sm:text-sm text-gray-600 font-medium border-t border-gray-100">
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-green-500" />
-              <span>140 баллдық жаңа тест базасы</span>
+          <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-slate-600">
+            {[
+              '140 баллдық жаңа тест базасы',
+              'Қателерді AI арқылы талдау',
+              'QYZPU гранттар калькуляторы',
+            ].map((t) => (
+              <li key={t} className="flex items-center gap-1.5">
+                <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
+                {t}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Демонстрация репетитора: шешім қадамдары бірінен соң бірі шығады */}
+        <div
+          className="min-w-0 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60"
+          role="img"
+          aria-label="ZERDE AI репетиторының диалог үлгісі: квадрат теңдеуді қадамдап шешу"
+        >
+          <div className="flex items-center gap-3 border-b border-slate-100 px-5 py-3.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-600 text-white">
+              <Bot className="h-4 w-4" />
             </div>
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-green-500" />
-              <span>Қателіктерді ИИ арқылы талдау</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-green-500" />
-              <span>QYZPU Грант калькуляторы</span>
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-slate-900">ZERDE AI Репетитор</p>
+              <p className="flex items-center gap-1.5 text-xs text-slate-500">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                онлайн
+              </p>
             </div>
           </div>
 
+          <div className="space-y-3 bg-slate-50/70 p-5" aria-hidden="true">
+            <div className="flex justify-end">
+              <p className="max-w-[85%] rounded-2xl rounded-br-md bg-indigo-600 px-4 py-2.5 text-sm text-white">
+                x² − 5x + 6 = 0 теңдеуін қалай шешемін?
+              </p>
+            </div>
+
+            <div className="max-w-[92%] space-y-2 rounded-2xl rounded-bl-md bg-white p-4 text-sm text-slate-800 shadow-sm ring-1 ring-slate-100">
+              <p className="demo-step" style={{ animationDelay: '0.3s' }}>
+                Бұл квадрат теңдеу. Дискриминант арқылы шығарамыз:
+              </p>
+              {DEMO_STEPS.map((s, i) => (
+                <div
+                  key={s.title}
+                  className="demo-step rounded-xl bg-slate-50 px-3 py-2"
+                  style={{ animationDelay: `${0.9 + i * 0.8}s` }}
+                >
+                  <p className="text-xs font-semibold text-indigo-700">{s.title}</p>
+                  <p className="mt-0.5 [overflow-wrap:anywhere] font-medium tabular-nums">{s.body}</p>
+                </div>
+              ))}
+              <p
+                className="demo-step font-semibold text-emerald-700"
+                style={{ animationDelay: `${0.9 + DEMO_STEPS.length * 0.8}s` }}
+              >
+                Жауабы: x = 2 және x = 3
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Metric Stats Banner */}
-      <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {[
-          {
-            num: '140',
-            unit: 'макс. балл',
-            label: 'Максималды нәтиже мақсаты',
-            icon: Target,
-          },
-          {
-            num: '94.2%',
-            unit: 'грант',
-            label: 'QYZPU және мемлекеттік грант көрсеткіші',
-            icon: GraduationCap,
-          },
-          {
-            num: '12,000+',
-            unit: 'сұрақ',
-            label: 'ҰБТ 2025/2026 типтік сұрақтар базасы',
-            icon: BookOpenCheck,
-          },
-          {
-            num: '24/7',
-            unit: 'онлайн',
-            label: 'ZERDE AI дербес оқыту репетиторы',
-            icon: Brain,
-          },
-        ].map((stat, i) => {
-          const IconComponent = stat.icon;
-          return (
-            <div
-              key={i}
-              className="bg-white border border-gray-100 rounded-xl p-5 sm:p-6 shadow-xs hover:border-indigo-200 transition-all flex flex-col justify-between"
-            >
-              <div className="flex items-center justify-between text-gray-400 mb-3">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400">
-                  {stat.unit}
-                </span>
-                <IconComponent className="w-5 h-5 text-indigo-600" />
-              </div>
-              <div>
-                <div className="text-2xl sm:text-4xl font-extrabold text-indigo-600 font-mono tracking-tight">
-                  {stat.num}
-                </div>
-                <p className="text-xs sm:text-sm text-gray-600 font-medium mt-1">
-                  {stat.label}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+      {/* ============================= STATS ============================= */}
+      <section
+        aria-label="Платформа көрсеткіштері"
+        className="grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-slate-200 bg-slate-200 md:grid-cols-4"
+      >
+        {STATS.map((s) => (
+          <div key={s.label} className="bg-white p-5 sm:p-7">
+            <p className="text-3xl font-bold tabular-nums tracking-tight text-indigo-600 sm:text-4xl">
+              {s.num}
+            </p>
+            <p className="mt-1.5 text-sm text-slate-600">{s.label}</p>
+          </div>
+        ))}
       </section>
 
-      {/* 4 Pillars of ZERDE Platform */}
+      {/* ============================= FEATURES ============================= */}
       <section className="space-y-8">
-        <div className="text-center max-w-2xl mx-auto space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight font-sans">
-            ZERDE платформасының 4 негізгі артықшылығы
+        <div className="max-w-2xl">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            Дайындыққа қажеттінің бәрі бір жерде
           </h2>
-          <p className="text-sm text-gray-500">
-            Қазақ ұлттық қыздар педагогикалық университетінің инновациялық әдістемесі
+          <p className="mt-2 text-sm text-slate-500 sm:text-base">
+            Қазақ ұлттық қыздар педагогикалық университетінің инновациялық әдістемесі.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-          {/* Card 1 */}
-          <div className="bg-white rounded-xl border border-gray-100 p-6 sm:p-8 hover:border-indigo-200 transition-all space-y-4 relative overflow-hidden shadow-xs">
-            <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm">
-              01
+        <div className="grid gap-4 md:grid-cols-6">
+          {/* Репетитор — үлкен карточка */}
+          <div className="flex flex-col justify-between gap-6 rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 md:col-span-4">
+            <div className="space-y-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-600 text-white">
+                <Brain className="h-5 w-5" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900">ZERDE AI-репетитор</h3>
+              <p className="max-w-xl text-sm leading-relaxed text-slate-600">
+                Сұрақты қазақ немесе орыс тілінде қойыңыз. AI дайын жауапты емес, шешудің қадамдық
+                логикасын, формулалары мен ережелерін түсіндіреді.
+              </p>
             </div>
-            <h3 className="text-xl font-bold text-gray-900 font-sans">
-              ZERDE AI-Репетитор және дербес оқыту
-            </h3>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Пән бойынша туындаған кез келген күрделі сұрақты қазақ немесе
-              орыс тілінде қойыңыз. ИИ сұрақтың дайын жауабын емес, оны
-              шешудің қадамдық логикасын, формулалары мен ережелерін
-              түсіндіреді.
-            </p>
-            <div className="pt-2">
-              <button
-                onClick={() => setShowTutor(true)}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800"
-              >
-                <span>Репетиторды сынап көру</span>
-                <ArrowRight className="w-3 h-3" />
-              </button>
-            </div>
+            <button
+              onClick={() => setShowTutor(true)}
+              className="inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-indigo-600 transition hover:text-indigo-800"
+            >
+              Репетиторды сынап көру
+              <ArrowRight className="h-4 w-4" />
+            </button>
           </div>
 
-          {/* Card 2 */}
-          <div className="bg-white rounded-xl border border-gray-100 p-6 sm:p-8 hover:border-indigo-200 transition-all space-y-4 relative overflow-hidden shadow-xs">
-            <div className="w-10 h-10 rounded-xl bg-indigo-900 text-white flex items-center justify-center font-bold text-sm">
-              02
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 font-sans">
-              ҰБТ Экспресс Тренажер және таймер
-            </h3>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Нақты ҰБТ емтиханының шарттары: міндетті және бейіндік пәндер
-              комбинациясы, уақыт бақылауы, лезде балл есептеу және әрбір
-              қатеге ИИ арқылы жасалған егжей-тегжейлі талдау.
-            </p>
-            <div className="pt-2">
-              <button
-                onClick={() => router.push('/testEnt')}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800"
-              >
-                <span>Тест тапсыру</span>
-                <ArrowRight className="w-3 h-3" />
-              </button>
-            </div>
-          </div>
+          <FeatureLink
+            href="/testent"
+            icon={<Timer className="h-5 w-5" />}
+            title="ҰБТ тренажері"
+            text="Нақты емтихан шарттары: пәндер комбинациясы, таймер, лезде балл есептеу және әр қатеге AI талдауы."
+            cta="Тест тапсыру"
+            className="md:col-span-2"
+          />
 
-          {/* Card 3 */}
-          <div className="bg-white rounded-xl border border-gray-100 p-6 sm:p-8 hover:border-indigo-200 transition-all space-y-4 relative overflow-hidden shadow-xs">
-            <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm">
-              03
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 font-sans">
-              Жеке кабинет және пән радары
-            </h3>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Интерактивті дайындық кабинеті: оқушының әр пән бойынша меңгеру
-              деңгейінің радары, осал тақырыптар диагностикасы (Weak Spot
-              Generator) және апталық оқу кестесі.
-            </p>
-            <div className="pt-2">
-              <button
-                onClick={() => router.push('/cabinet')}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800"
-              >
-                <span>Кабинетке өту</span>
-                <ArrowRight className="w-3 h-3" />
-              </button>
-            </div>
-          </div>
+          <FeatureLink
+            href="/profile"
+            icon={<BarChart3 className="h-5 w-5" />}
+            title="Жеке кабинет"
+            text="Нәтиже динамикасы, тест тарихы және осал тақырыптарды анықтау."
+            cta="Кабинетке өту"
+            className="md:col-span-2"
+          />
 
-          {/* Card 4 */}
-          <div className="bg-white rounded-xl border border-gray-100 p-6 sm:p-8 hover:border-indigo-200 transition-all space-y-4 relative overflow-hidden shadow-xs">
-            <div className="w-10 h-10 rounded-xl bg-indigo-900 text-white flex items-center justify-center font-bold text-sm">
-              04
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 font-sans">
-              QYZPU Гранттар калькуляторы
-            </h3>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Қазақ ұлттық қыздар педагогикалық университетінің институттары,
-              2025/2026 оқу жылының грант шекті баллдары, шәкіртақы мөлшері
-              және мамандықтар каталогы.
-            </p>
-            <div className="pt-2">
-              <button
-                onClick={() => router.push('/qyzpu')}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800"
-              >
-                <span>QYZPU мамандықтары</span>
-                <ArrowRight className="w-3 h-3" />
-              </button>
-            </div>
-          </div>
-
+          <FeatureLink
+            href="/qyzpu"
+            icon={<GraduationCap className="h-5 w-5" />}
+            title="QYZPU гранттар калькуляторы"
+            text="2025/2026 оқу жылының грант шекті баллдары, шәкіртақы мөлшері және мамандықтар каталогы."
+            cta="QYZPU мамандықтары"
+            className="md:col-span-4"
+          />
         </div>
       </section>
 
-      {/* QYZPU University Endorsement Banner */}
-      <section className="bg-indigo-900 rounded-xl p-8 sm:p-12 text-white relative overflow-hidden shadow-sm">
-        <div className="absolute -right-8 -bottom-8 w-48 h-48 bg-white opacity-5 rounded-full pointer-events-none" />
-        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="space-y-4 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-indigo-100 border border-white/20 text-xs font-semibold">
-              <GraduationCap className="w-4 h-4 text-indigo-300" />
-              <span>QYZPU — 80 ЖЫЛДЫҚ ТАРИХЫ БАР ҰЛТТЫҚ ФЛАГМАН</span>
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight font-sans">
+      {/* ============================= QYZPU ============================= */}
+      <section className="rounded-3xl bg-indigo-950 p-8 text-white sm:p-12">
+        <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
+          <div className="max-w-2xl space-y-4">
+            <h2 className="text-2xl font-bold tracking-tight sm:text-4xl">
               Болашақ педагогтар мен STEM мамандарының ордасы
             </h2>
-            <p className="text-indigo-200 text-sm sm:text-base leading-relaxed">
-              QYZPU университеті ҰБТ-да жоғары балл жинаған талапкерлерге
-              мемлекеттік грант, президенттік шәкіртақы (45,000+ ₸), жайлы
-              жатақхана және шетелдік тағылымдама ұсынады.
+            <p className="text-sm leading-relaxed text-indigo-200 sm:text-base">
+              80 жылдық тарихы бар ұлттық университет ҰБТ-да жоғары балл жинаған талапкерлерге
+              мемлекеттік грант, президенттік шәкіртақы (45 000+ ₸), жайлы жатақхана және
+              шетелдік тағылымдама ұсынады.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-            <button
-              onClick={() => router.push('/qyzpu')}
-              className="px-6 py-3.5 rounded-xl bg-white text-indigo-900 hover:bg-gray-100 font-bold text-sm transition-all text-center whitespace-nowrap shadow-sm"
+          <div className="flex w-full flex-col gap-3 sm:flex-row md:w-auto md:flex-col lg:flex-row">
+            <Link
+              href="/qyzpu"
+              className="whitespace-nowrap rounded-xl bg-white px-6 py-3.5 text-center text-sm font-semibold text-indigo-950 transition hover:bg-indigo-50"
             >
-              QYZPU Гранттарын қарау
-            </button>
-            <button
-              onClick={() => router.push('/testEnt')}
-              className="px-6 py-3.5 rounded-xl bg-indigo-800/80 hover:bg-indigo-800 text-white font-semibold text-sm transition-all border border-indigo-700/80 text-center whitespace-nowrap"
+              Гранттарды қарау
+            </Link>
+            <Link
+              href="/testent"
+              className="whitespace-nowrap rounded-xl border border-indigo-700 px-6 py-3.5 text-center text-sm font-semibold text-white transition hover:bg-indigo-900"
             >
               Тест тапсыру
-            </button>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ===== МОДАЛКА AI-ТЬЮТОРА ===== */}
+      {/* ============================= ТЬЮТОР МОДАЛКАСЫ ============================= */}
       {showTutor && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-3 backdrop-blur-sm sm:p-4"
           onClick={() => setShowTutor(false)}
         >
           <div
-            className="w-full max-w-3xl"
+            role="dialog"
+            aria-modal="true"
+            aria-label="ZERDE AI репетиторы"
+            className="flex h-[min(680px,calc(100dvh-2rem))] w-full max-w-2xl min-w-0 flex-col overflow-hidden rounded-3xl bg-white shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-white font-bold text-sm">
-                ZERDE AI • Репетитор
-              </span>
+            <div className="flex shrink-0 items-center justify-between gap-3 border-b border-slate-100 px-5 py-3.5">
+              <div className="flex min-w-0 items-center gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-white">
+                  <Bot className="h-4 w-4" />
+                </div>
+                <p className="truncate text-sm font-semibold text-slate-900">ZERDE AI Репетитор</p>
+              </div>
               <button
                 onClick={() => setShowTutor(false)}
-                className="text-white hover:text-gray-300 font-bold text-sm"
+                aria-label="Жабу"
+                className="shrink-0 rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900"
               >
-                ✕ Жабу
+                <X className="h-5 w-5" />
               </button>
             </div>
-            <TutorChat />
+            <div className="min-h-0 flex-1">
+              <TutorChat />
+            </div>
           </div>
         </div>
       )}
-
     </div>
+  );
+}
+
+function FeatureLink({
+  href,
+  icon,
+  title,
+  text,
+  cta,
+  className = '',
+}: {
+  href: string;
+  icon: React.ReactNode;
+  title: string;
+  text: string;
+  cta: string;
+  className?: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`group flex flex-col justify-between gap-6 rounded-3xl border border-slate-200 bg-white p-6 transition hover:border-indigo-300 sm:p-8 ${className}`}
+    >
+      <div className="space-y-3">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
+          {icon}
+        </div>
+        <h3 className="text-lg font-bold text-slate-900">{title}</h3>
+        <p className="text-sm leading-relaxed text-slate-600">{text}</p>
+      </div>
+      <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 group-hover:text-indigo-800">
+        {cta}
+        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+      </span>
+    </Link>
   );
 }

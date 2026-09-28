@@ -26,15 +26,20 @@ function formatDateShort(iso: string) {
   });
 }
 
-function scoreColor(score: number, total: number) {
+type Tone = { text: string; bg: string; bar: string; hex: string };
+
+function tone(score: number, total: number): Tone {
   const ratio = total > 0 ? score / total : 0;
-  if (ratio >= 0.7) return 'text-emerald-600 bg-emerald-50 border-emerald-200';
-  if (ratio >= 0.4) return 'text-amber-600 bg-amber-50 border-amber-200';
-  return 'text-red-600 bg-red-50 border-red-200';
+  if (ratio >= 0.7)
+    return { text: 'text-emerald-700', bg: 'bg-emerald-50 border-emerald-200', bar: 'bg-emerald-500', hex: '#10b981' };
+  if (ratio >= 0.4)
+    return { text: 'text-amber-700', bg: 'bg-amber-50 border-amber-200', bar: 'bg-amber-500', hex: '#f59e0b' };
+  return { text: 'text-red-700', bg: 'bg-red-50 border-red-200', bar: 'bg-red-500', hex: '#ef4444' };
 }
 
 /* =========================================================
-   PROGRESS CHART (чистый SVG, без внешних библиотек)
+   PROGRESS CHART (чистый SVG) — ось Y в процентах,
+   чтобы тесты с разным числом вопросов были сравнимы
 ========================================================= */
 
 function ProgressChart({
@@ -44,81 +49,90 @@ function ProgressChart({
 }) {
   if (data.length === 0) return null;
 
-  // график читается слева направо по хронологии — история приходит от новых к старым,
-  // разворачиваем для отображения
   const chronological = [...data].reverse();
 
   const width = 600;
-  const height = 160;
-  const paddingX = 24;
-  const paddingY = 20;
-  const innerWidth = width - paddingX * 2;
-  const innerHeight = height - paddingY * 2;
-
-  const maxTotal = Math.max(...chronological.map((d) => d.total), 1);
+  const height = 190;
+  const padLeft = 40;
+  const padRight = 16;
+  const padTop = 16;
+  const padBottom = 28;
+  const innerW = width - padLeft - padRight;
+  const innerH = height - padTop - padBottom;
 
   const points = chronological.map((d, i) => {
+    const ratio = d.total > 0 ? d.score / d.total : 0;
     const x =
       chronological.length === 1
-        ? paddingX + innerWidth / 2
-        : paddingX + (i / (chronological.length - 1)) * innerWidth;
-    const ratio = d.score / maxTotal;
-    const y = paddingY + innerHeight - ratio * innerHeight;
-    return { x, y, ...d };
+        ? padLeft + innerW / 2
+        : padLeft + (i / (chronological.length - 1)) * innerW;
+    const y = padTop + innerH * (1 - ratio);
+    return { x, y, ratio, ...d };
   });
 
   const pathD = points
     .map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`)
     .join(' ');
 
-  const areaD = `${pathD} L ${points[points.length - 1].x.toFixed(1)} ${(
-    paddingY + innerHeight
-  ).toFixed(1)} L ${points[0].x.toFixed(1)} ${(paddingY + innerHeight).toFixed(1)} Z`;
+  const baseY = padTop + innerH;
+  const areaD = `${pathD} L ${points[points.length - 1].x.toFixed(1)} ${baseY} L ${points[0].x.toFixed(1)} ${baseY} Z`;
 
   return (
     <div className="w-full overflow-x-auto">
       <svg
         viewBox={`0 0 ${width} ${height}`}
-        className="w-full min-w-[400px]"
-        preserveAspectRatio="xMidYMid meet"
+        className="w-full min-w-[420px]"
+        role="img"
+        aria-label="Тест нәтижелерінің динамикасы, пайызбен"
       >
         <defs>
           <linearGradient id="progressFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#6366f1" stopOpacity="0.25" />
-            <stop offset="100%" stopColor="#6366f1" stopOpacity="0" />
+            <stop offset="0%" stopColor="#4f46e5" stopOpacity="0.18" />
+            <stop offset="100%" stopColor="#4f46e5" stopOpacity="0" />
           </linearGradient>
         </defs>
 
-        {/* горизонтальные направляющие линии */}
-        {[0, 0.5, 1].map((r) => (
-          <line
-            key={r}
-            x1={paddingX}
-            x2={width - paddingX}
-            y1={paddingY + innerHeight * (1 - r)}
-            y2={paddingY + innerHeight * (1 - r)}
-            stroke="#e2e8f0"
-            strokeWidth={1}
+        {[0, 0.5, 1].map((r) => {
+          const y = padTop + innerH * (1 - r);
+          return (
+            <g key={r}>
+              <line
+                x1={padLeft}
+                x2={width - padRight}
+                y1={y}
+                y2={y}
+                stroke="#e2e8f0"
+                strokeWidth={1}
+                strokeDasharray={r === 0 ? undefined : '3 4'}
+              />
+              <text x={padLeft - 8} y={y + 3} textAnchor="end" fontSize="10" fill="#94a3b8">
+                {Math.round(r * 100)}%
+              </text>
+            </g>
+          );
+        })}
+
+        {points.length > 1 && <path d={areaD} fill="url(#progressFill)" className="chart-area" />}
+
+        {points.length > 1 && (
+          <path
+            d={pathD}
+            pathLength={1}
+            fill="none"
+            stroke="#4f46e5"
+            strokeWidth={2.5}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="chart-line"
           />
-        ))}
+        )}
 
-        {/* заливка под линией */}
-        <path d={areaD} fill="url(#progressFill)" />
-
-        {/* сама линия */}
-        <path d={pathD} fill="none" stroke="#6366f1" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
-
-        {/* точки + подписи */}
         {points.map((p, i) => (
           <g key={i}>
-            <circle cx={p.x} cy={p.y} r={4} fill="#ffffff" stroke="#6366f1" strokeWidth={2.5} />
-            <text
-              x={p.x}
-              y={height - 2}
-              textAnchor="middle"
-              fontSize="9"
-              fill="#94a3b8"
-            >
+            <circle cx={p.x} cy={p.y} r={5} fill="#ffffff" stroke={tone(p.score, p.total).hex} strokeWidth={3}>
+              <title>{`${formatDateShort(p.date)} — ${p.score}/${p.total} (${Math.round(p.ratio * 100)}%)`}</title>
+            </circle>
+            <text x={p.x} y={height - 8} textAnchor="middle" fontSize="10" fill="#94a3b8">
               {formatDateShort(p.date)}
             </text>
           </g>
@@ -150,7 +164,6 @@ export default async function ProfilePage() {
       ? Math.round((history.reduce((sum, h) => sum + h.score, 0) / attemptsCount) * 10) / 10
       : null;
 
-  // прогресс: сравнение последней попытки с первой (по хронологии)
   const chronological = [...history].reverse();
   const firstScore = chronological[0]?.score ?? null;
   const lastScore = chronological[chronological.length - 1]?.score ?? null;
@@ -159,151 +172,162 @@ export default async function ProfilePage() {
       ? lastScore - firstScore
       : null;
 
-  // берём последние 10 попыток для графика, чтобы не перегружать
   const chartData = history.slice(0, 10).map((h) => ({
     score: h.score,
     total: h.total,
     date: h.finishedAt ?? h.startedAt,
   }));
 
+  const recentHistory = history.slice(0, 5);
+  const latest = history[0];
+  const latestPercent = latest && latest.total > 0 ? Math.round((latest.score / latest.total) * 100) : null;
+
+  const stats: { label: string; value: string; valueClass?: string }[] = [
+    { label: 'Тапсырылған тест', value: String(attemptsCount) },
+    { label: 'Ең жоғары нәтиже', value: bestScore !== null ? `${bestScore} / ${bestTotal}` : '—' },
+    { label: 'Орташа балл', value: avgScore !== null ? String(avgScore) : '—' },
+    {
+      label: 'Өзгеріс',
+      value: progressDelta === null ? '—' : progressDelta > 0 ? `+${progressDelta}` : String(progressDelta),
+      valueClass:
+        progressDelta === null
+          ? 'text-slate-400'
+          : progressDelta > 0
+          ? 'text-emerald-600'
+          : progressDelta < 0
+          ? 'text-red-600'
+          : 'text-slate-900',
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50/40 px-4 py-10 font-sans text-slate-800 md:px-8 pt-26">
-      <div className="mx-auto max-w-4xl">
-        {/* ============================= HEADER: имя + email ============================= */}
-        <div className="mb-8 flex items-center gap-4">
-          <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 text-xl font-bold text-white shadow-lg shadow-indigo-500/30">
-            {session.user.name?.[0]?.toUpperCase() ?? '?'}
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
-              {session.user.name}
-            </h1>
-            <p className="text-sm text-slate-500">{session.user.email}</p>
-          </div>
-        </div>
+    <div className="min-h-screen bg-slate-50 px-4 pb-16 pt-28 font-sans text-slate-800 md:px-8">
+      <style>{`
+        .chart-line{stroke-dasharray:1;stroke-dashoffset:1;animation:drawLine 1.1s ease-out .15s forwards}
+        .chart-area{opacity:0;animation:fadeArea .6s ease-out .9s forwards}
+        @keyframes drawLine{to{stroke-dashoffset:0}}
+        @keyframes fadeArea{to{opacity:1}}
+        @media (prefers-reduced-motion:reduce){
+          .chart-line{animation:none;stroke-dashoffset:0}
+          .chart-area{animation:none;opacity:1}
+        }
+      `}</style>
 
-        {/* ============================= STATS: попытки / рекорд / средний балл ============================= */}
-        <div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
-          <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
-            <p className="text-xs font-medium uppercase tracking-wider text-slate-400">
-              Попытка саны
-            </p>
-            <p className="mt-1 text-2xl font-bold text-slate-900">{attemptsCount}</p>
-          </div>
-
-          <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
-            <p className="text-xs font-medium uppercase tracking-wider text-slate-400">
-              Рекорд
-            </p>
-            <p className="mt-1 text-2xl font-bold text-slate-900">
-              {bestScore !== null ? `${bestScore} / ${bestTotal}` : '—'}
-            </p>
+      <div className="mx-auto max-w-4xl space-y-5">
+        {/* ============================= HEADER ============================= */}
+        <header className="flex flex-col gap-5 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between md:p-6">
+          <div className="flex min-w-0 items-center gap-4">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-2xl font-bold text-white">
+              {session.user.name?.[0]?.toUpperCase() ?? '?'}
+            </div>
+            <div className="min-w-0">
+              <h1 className="truncate text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
+                {session.user.name}
+              </h1>
+              <p className="truncate text-sm text-slate-500">{session.user.email}</p>
+            </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
-            <p className="text-xs font-medium uppercase tracking-wider text-slate-400">
-              Орташа балл
-            </p>
-            <p className="mt-1 text-2xl font-bold text-slate-900">
-              {avgScore !== null ? avgScore : '—'}
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm ">
-            <p className="text-xs font-medium uppercase tracking-wider text-slate-400">
-              Прогресс
-            </p>
-            <p
-              className={`mt-1 text-2xl font-bold ${
-                progressDelta === null
-                  ? 'text-slate-400'
-                  : progressDelta > 0
-                  ? 'text-emerald-600'
-                  : progressDelta < 0
-                  ? 'text-red-600'
-                  : 'text-slate-900'
-              }`}
-            >
-              {progressDelta === null
-                ? '—'
-                : progressDelta > 0
-                ? `+${progressDelta}`
-                : progressDelta}
-            </p>
-          </div>
-        </div>
-
-        {/* ============================= CTA ============================= */}
-        <div className="mb-6">
-          <Link
+          {/* <Link
             href="/testent"
-            className="flex items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 px-5 py-4 text-sm font-semibold text-white shadow-md shadow-indigo-500/30 transition hover:shadow-lg"
+            className="inline-flex shrink-0 items-center justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 active:scale-[0.98] focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-500/30"
           >
-            Жаңа тест тапсыру →
-          </Link>
-        </div>
+            Жаңа тест тапсыру
+          </Link> */}
+        </header>
+
+        {/* ============================= STATS ============================= */}
+        <section
+          aria-label="Статистика"
+          className="grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-slate-200 bg-slate-200 shadow-sm md:grid-cols-4"
+        >
+          {stats.map((s) => (
+            <div key={s.label} className="bg-white p-5">
+              <p className="text-sm text-slate-500">{s.label}</p>
+              <p className={`mt-1.5 text-2xl font-bold tabular-nums text-slate-900 ${s.valueClass ?? ''}`}>
+                {s.value}
+              </p>
+            </div>
+          ))}
+        </section>
 
         {/* ============================= PROGRESS CHART ============================= */}
         {chartData.length > 0 && (
-          <div className="mb-6 rounded-3xl border border-slate-200/80 bg-white p-5 shadow-xl shadow-slate-200/40 md:p-6">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-sm font-bold tracking-tight text-slate-900">
-                Нәтиже динамикасы
-              </h2>
-              <span className="text-xs text-slate-400">
-                Соңғы {chartData.length} тест
-              </span>
+          <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+            <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <h2 className="text-base font-bold tracking-tight text-slate-900">Нәтиже динамикасы</h2>
+                <p className="mt-0.5 text-sm text-slate-500">Соңғы {chartData.length} тест, пайызбен</p>
+              </div>
+              {latestPercent !== null && (
+                <div className="text-right">
+                  <p className="text-3xl font-bold tabular-nums text-slate-900">{latestPercent}%</p>
+                  <p className="text-xs text-slate-500">соңғы тест</p>
+                </div>
+              )}
             </div>
             <ProgressChart data={chartData} />
-          </div>
+          </section>
         )}
 
         {/* ============================= HISTORY ============================= */}
-        <div className="rounded-3xl border border-slate-200/80 bg-white p-5 shadow-xl shadow-slate-200/40 md:p-6">
-          <h2 className="mb-4 text-sm font-bold tracking-tight text-slate-900">
-            Тест тарихы
-          </h2>
+        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
+          <div className="mb-4 flex items-end justify-between gap-3">
+            <h2 className="text-base font-bold tracking-tight text-slate-900">Тест тарихы</h2>
+            {history.length > 5 && (
+              <span className="text-sm text-slate-500">Соңғы 5 тест · барлығы {history.length}</span>
+            )}
+          </div>
 
           {history.length === 0 ? (
-            <div className="flex flex-col items-center justify-center gap-3 py-12 text-center">
-              <p className="text-sm text-slate-400">
-                Сіз әлі тест тапсырмадыңыз.
-              </p>
+            <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-slate-200 py-12 text-center">
+              <p className="text-sm text-slate-500">Сіз әлі тест тапсырмадыңыз.</p>
               <Link
                 href="/testent"
-                className="rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-indigo-500/30 transition hover:shadow-lg"
+                className="rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700"
               >
                 Тестті бастау
               </Link>
             </div>
           ) : (
-            <div className="space-y-3">
-              {history.map((attempt) => (
-                <div
-                  key={attempt.id}
-                  className="flex items-center justify-between gap-4 rounded-2xl border border-slate-100 bg-slate-50/50 px-4 py-3.5 md:px-5"
-                >
-                  <div>
-                    <p className="text-sm font-medium text-slate-800">
-                      {attempt.finishedAt ? formatDate(attempt.finishedAt) : formatDate(attempt.startedAt)}
-                    </p>
-                    <p className="mt-0.5 text-xs text-slate-400">
-                      Тапсырма ID: {attempt.id.slice(0, 8)}
-                    </p>
-                  </div>
-                  <span
-                    className={`flex-shrink-0 rounded-full border px-3 py-1.5 text-sm font-bold tabular-nums ${scoreColor(
-                      attempt.score,
-                      attempt.total
-                    )}`}
-                  >
-                    {attempt.score} / {attempt.total}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <ul className="divide-y divide-slate-100">
+              {recentHistory.map((attempt) => {
+                const t = tone(attempt.score, attempt.total);
+                const percent = attempt.total > 0 ? Math.round((attempt.score / attempt.total) * 100) : 0;
+                return (
+                  <li key={attempt.id} className="flex items-center gap-4 py-4 first:pt-0 last:pb-0">
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-semibold text-slate-800">
+                        {attempt.finishedAt ? formatDate(attempt.finishedAt) : formatDate(attempt.startedAt)}
+                      </p>
+                      <div className="mt-2 flex items-center gap-3">
+                        <div
+                          className="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-100"
+                          role="progressbar"
+                          aria-valuenow={percent}
+                          aria-valuemin={0}
+                          aria-valuemax={100}
+                        >
+                          <div className={`h-full rounded-full ${t.bar}`} style={{ width: `${percent}%` }} />
+                        </div>
+                        <span className="w-10 shrink-0 text-right text-xs tabular-nums text-slate-500">
+                          {percent}%
+                        </span>
+                      </div>
+                      <p className="mt-1.5 text-xs text-slate-400">ID: {attempt.id.slice(0, 8)}</p>
+                    </div>
+
+                    <span
+                      className={`shrink-0 rounded-xl border px-3 py-2 text-sm font-bold tabular-nums ${t.bg} ${t.text}`}
+                    >
+                      {attempt.score} / {attempt.total}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
           )}
-        </div>
+        </section>
       </div>
     </div>
   );
