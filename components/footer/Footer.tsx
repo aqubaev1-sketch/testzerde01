@@ -15,7 +15,7 @@ export default function Footer() {
               ZERDE
             </h3>
             <p className="text-[#6a7282] text-sm leading-relaxed max-w-sm">
-              Интерактивная образовательная платформа для быстрого и качественного освоения современных ИТ-технологий, баз данных и программирования.
+              Заманауи IT-технологияларды, деректер қорын және бағдарламалауды жылдам әрі сапалы меңгеруге арналған интерактивті білім беру платформасы.
             </p>
           </div>
 
@@ -25,19 +25,15 @@ export default function Footer() {
               Карта платформы
             </h4>
             <ul className="flex flex-col gap-3">
+              
               <li>
                 <Link href="/" className="text-[#6a7282] hover:text-[#6960C5] text-sm transition-colors">
-                  Каталог курсов
-                </Link>
-              </li>
-              <li>
-                <Link href="/" className="text-[#6a7282] hover:text-[#6960C5] text-sm transition-colors">
-                  Практические задания
+                  AI Chat
                 </Link>
               </li>
               <li>
                 <Link href="/support" className="text-[#6a7282] hover:text-[#6960C5] text-sm transition-colors">
-                  Поддержка и обратная связь
+                  Қолдау және кері байланыс
                 </Link>
               </li>
             </ul>

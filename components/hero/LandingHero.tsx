@@ -16,8 +16,8 @@ import TutorChat from '@/components/chat/TutorChat';
 
 const STATS = [
   { num: '140', label: 'максималды балл' },
-  { num: '94,2%', label: 'грант көрсеткіші' },
-  { num: '12 000+', label: 'типтік сұрақ' },
+  { num: '85,2%', label: 'грант көрсеткіші' },
+  { num: '2 000+', label: 'типтік сұрақ' },
   { num: '24/7', label: 'AI-репетитор онлайн' },
 ];
 
