@@ -13,7 +13,7 @@ interface Message {
   content: string;
 }
 
-const WEBHOOK_URL = 'https://superfbfb.app.n8n.cloud/webhook/626b7d2f-9e6e-4401-8295-a75bf7f521e3';
+const WEBHOOK_URL = 'https://n8n.lessonstudy.asia/webhook/adafaf-ai---chatnscjn-zerde';
 
 /* =========================================================
    Модели часто пишут формулы как \( ... \) и \[ ... \],

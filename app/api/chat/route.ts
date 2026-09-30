@@ -6,7 +6,7 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     // 👇 ВСТАВЬТЕ СЮДА ВАШ URL ИЗ N8N (узел Webhook -> Production URL)
-    const N8N_WEBHOOK_URL = 'https://superfbfb.app.n8n.cloud/webhook/626b7d2f-9e6e';
+    const N8N_WEBHOOK_URL = 'https://n8n.lessonstudy.asia/webhook/testssssgenerao';
 
     const res = await fetch(N8N_WEBHOOK_URL, {
       method: 'POST',
