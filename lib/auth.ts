@@ -38,6 +38,12 @@ export const auth = betterAuth({
             });
         },
     },
+    session: {
+        cookieCache: {
+            enabled: true,
+            maxAge: 5 * 60, // 5 минут: в это время getSession не ходит в БД
+        },
+    },
     database: drizzleAdapter(db, {
         provider: "pg",
         schema
