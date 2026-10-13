@@ -23,7 +23,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "ZERDE App",
   description:
-    "zerde is a digital notebook that allows you to take notes, create notebooks, and more.",
+    "ҰБТ-ға дайындық және пәндер бойынша AI көмекшісі",
 };
 
 export default function RootLayout({
