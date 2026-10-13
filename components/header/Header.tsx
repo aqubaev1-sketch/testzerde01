@@ -87,14 +87,14 @@ export default function Header() {
                   user ? (
                     <button
                       onClick={handleLogout}
-                      className="w-full max-w-[260px] py-3 text-center text-[14px] font-bold uppercase text-white bg-[#6960C5] rounded-[18px] hover:opacity-90 transition-opacity font-['Inter',sans-serif]"
+                      className="w-full max-w-[260px] py-3 text-center text-[14px] font-bold uppercase text-white bg-indigo-600 rounded-[18px] hover:opacity-90 transition-opacity font-['Inter',sans-serif]"
                     >
                       Выйти
                     </button>
                   ) : (
                     <button
                       onClick={handleSignIn}
-                      className="w-full max-w-[260px] py-3 text-center text-[14px] font-bold uppercase text-white bg-[#6960C5] rounded-[18px] hover:opacity-90 transition-opacity font-['Inter',sans-serif]"
+                      className="w-full max-w-[260px] py-3 text-center text-[14px] font-bold uppercase text-white bg-indigo-600 rounded-[18px] hover:opacity-90 transition-opacity font-['Inter',sans-serif]"
                     >
                       Войти через Google
                     </button>
@@ -113,7 +113,7 @@ export default function Header() {
                     </span>
                     <button
                       onClick={handleLogout}
-                      className="inline-flex items-center justify-center px-6 h-[calc(100%-12px)] tracking-[1px] text-[14px] font-bold uppercase bg-[#6960C5] text-white rounded-[15px] hover:opacity-90 transition-opacity font-['Inter',sans-serif]"
+                      className="inline-flex items-center justify-center px-6 h-[calc(100%-12px)] tracking-[1px] text-[14px] font-bold uppercase bg-indigo-600 text-white rounded-[15px] hover:opacity-90 transition-opacity font-['Inter',sans-serif]"
                     >
                       Шығу
                     </button>
@@ -121,7 +121,7 @@ export default function Header() {
                 ) : (
                   <button
                     onClick={handleSignIn}
-                    className="inline-flex items-center justify-center px-6 h-[calc(100%-12px)] tracking-[1px] text-[14px] font-bold uppercase bg-[#6960C5] text-white rounded-[15px] hover:opacity-90 transition-opacity font-['Inter',sans-serif]"
+                    className="inline-flex items-center justify-center px-6 h-[calc(100%-12px)] tracking-[1px] text-[14px] font-bold uppercase bg-indigo-600 text-white rounded-[15px] hover:opacity-90 transition-opacity font-['Inter',sans-serif]"
                   >
                     Кіру
                   </button>

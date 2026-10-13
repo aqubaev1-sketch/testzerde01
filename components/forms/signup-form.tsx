@@ -363,7 +363,7 @@ export function SignupForm({
                 h-12
                 w-full
                 rounded-[4px]
-                bg-[#6960C5]
+                bg-indigo-600
                 text-[14px]
                 font-bold
                 uppercase
