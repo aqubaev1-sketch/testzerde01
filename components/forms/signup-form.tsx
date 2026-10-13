@@ -181,7 +181,7 @@ export function SignupForm({
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="Иван Иванов"
+                      placeholder="Айсұлтан Құбаев"
                       autoComplete="name"
                       {...field}
                       className="
