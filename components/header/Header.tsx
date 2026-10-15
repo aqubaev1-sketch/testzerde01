@@ -1,9 +1,17 @@
+
 'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth-client';
+import { Fredoka } from "next/font/google";
+
+const fredoka = Fredoka({
+  subsets: ["latin"],
+  weight: "700",
+  display: "swap",
+});
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,32 +41,37 @@ export default function Header() {
   };
 
   const navLinkClass =
-    "block w-full text-center p-4 md:p-0 font-['Inter',sans-serif] text-[14px] font-bold uppercase tracking-[1px] text-[#535966] hover:text-[#1f1f1f] transition-colors";
+    "block w-full text-center p-4 md:p-0 font-['Inter',sans-serif] text-[14px] font-bold uppercase tracking-[1px] text-[#64748B] hover:text-[#1f1f1f] transition-colors";
+
+  
 
   return (
     <>
-      <header className="fixed top-5 left-1/2 -translate-x-1/2 w-[calc(100%-20px)] max-w-[1240px] pl-6 pr-1.5 h-[62px] rounded-[20px] z-50 flex items-center bg-white/60 backdrop-blur-md border border-white/40 shadow-[0_4px_30px_rgba(0,0,0,0.05)] transition-all duration-300">
+      <header className="fixed top-5 left-1/2 -translate-x-1/2 w-[calc(100%-20px)] max-w-[1240px] pl-6 pr-1.5 h-[62px] rounded-[20px] z-50 flex items-center bg-white/40 backdrop-blur-md border border-[#C7B8FF]/60 shadow-[0_4px_30px_rgba(124,58,237,0.12)] transition-all duration-300">
         <div className="w-full h-full">
           <nav className="grid grid-cols-[auto_1fr_auto] items-center h-full uppercase">
 
             {/* 1. Логотип */}
-            <Link href="/" className="inline-flex items-center text-[#252426] font-extrabold text-xl md:text-2xl tracking-tight no-underline pr-8">
+            <Link
+              href="/"
+              className={`${fredoka.className} inline-flex items-center text-[#4f46e5] text-[32px] font-bold tracking-tight no-underline pr-8`}
+            >
               Zerde
             </Link>
 
             {/* 2. Навигация — доступна всем */}
             <div
               className={`
-                absolute top-[calc(100%+14px)] left-0 w-full bg-white/95 backdrop-blur-lg rounded-[18px] border border-gray-100 shadow-xl flex flex-col items-center gap-0 overflow-hidden transition-all duration-300 z-50
+                absolute top-[calc(100%+14px)] left-0 w-full bg-[#FAF8FF]/95 backdrop-blur-lg rounded-[18px] border border-[#EDE9FE] shadow-xl flex flex-col items-center gap-0 overflow-hidden transition-all duration-300 z-50
                 md:static md:w-auto md:bg-transparent! md:border-none! md:shadow-none! md:backdrop-blur-none md:flex-row md:justify-center md:overflow-visible
                 ${isMenuOpen ? 'max-h-[80vh] opacity-100 visible py-5 md:py-0' : 'max-h-0 opacity-0 invisible md:max-h-none md:opacity-100 md:visible'}
               `}
             >
               <ul className="w-full flex flex-col items-center gap-0 m-0 p-0 list-none md:flex-row md:justify-center md:gap-10">
-                
+
                 <li>
                   <Link href="/testsss" className={navLinkClass} onClick={closeMenu}>
-                    AI 
+                    AI
                   </Link>
                 </li>
                 <li>
@@ -108,7 +121,7 @@ export default function Header() {
               {!loading && (
                 user ? (
                   <div className="flex items-center gap-3 h-full">
-                    <span className="text-[14px] font-bold text-[#252426] normal-case">
+                    <span className="text-[14px] font-bold text-[#1f1f1f] normal-case">
                       {user.name || user.email}
                     </span>
                     <button
@@ -136,9 +149,9 @@ export default function Header() {
               aria-label="Открыть меню"
               aria-expanded={isMenuOpen}
             >
-              <span className={`w-[25px] h-[2px] bg-[#1b1b1b] transition-all duration-300 ${isMenuOpen ? 'translate-y-[7px] rotate-45' : ''}`}></span>
-              <span className={`w-[25px] h-[2px] bg-[#1b1b1b] transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''}`}></span>
-              <span className={`w-[25px] h-[2px] bg-[#1b1b1b] transition-all duration-300 ${isMenuOpen ? '-translate-y-[7px] -rotate-45' : ''}`}></span>
+              <span className={`w-[25px] h-[2px] bg-[#7C3AED] transition-all duration-300 ${isMenuOpen ? 'translate-y-[7px] rotate-45' : ''}`}></span>
+              <span className={`w-[25px] h-[2px] bg-[#7C3AED] transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''}`}></span>
+              <span className={`w-[25px] h-[2px] bg-[#7C3AED] transition-all duration-300 ${isMenuOpen ? '-translate-y-[7px] -rotate-45' : ''}`}></span>
             </button>
           </nav>
         </div>
@@ -146,7 +159,7 @@ export default function Header() {
 
       {/* Оверлей */}
       <div
-        className={`fixed inset-0 bg-black/35 transition-opacity duration-300 z-40 md:hidden ${isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed inset-0 bg-[#1E1B4B]/35 transition-opacity duration-300 z-40 md:hidden ${isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         onClick={closeMenu}
       ></div>
     </>

@@ -1,5 +1,6 @@
 'use client';
 
+
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
@@ -21,12 +22,6 @@ const STATS = [
   { num: '24/7', label: 'AI-репетитор онлайн' },
 ];
 
-const DEMO_STEPS = [
-  { title: '1. Коэффициенттерді табамыз', body: 'a = 1,  b = −5,  c = 6' },
-  { title: '2. Дискриминант', body: 'D = b² − 4ac = 25 − 24 = 1' },
-  { title: '3. Түбірлер', body: 'x₁ = (5 − 1) / 2 = 2,   x₂ = (5 + 1) / 2 = 3' },
-];
-
 export function LandingHero() {
   const [showTutor, setShowTutor] = useState(false);
 
@@ -43,114 +38,215 @@ export function LandingHero() {
   }, [showTutor]);
 
   return (
-    <div className="space-y-16 py-8 font-sans sm:space-y-24 sm:py-12">
+    <div className="space-y-16 pb-8 pt-0 font-sans sm:space-y-24 sm:pb-12 sm:pt-0">
       <style>{`
         .demo-step{opacity:0;transform:translateY(6px);animation:demoIn .5s ease-out forwards}
         @keyframes demoIn{to{opacity:1;transform:none}}
         @media (prefers-reduced-motion:reduce){.demo-step{animation:none;opacity:1;transform:none}}
       `}</style>
 
-      {/* ============================= HERO ============================= */}
-      <section className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
-        <div className="min-w-0">
-          <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-            ҰБТ-ға дайындықтың дербес AI-агенті
-          </h1>
+      
+{/* ============================= HERO ============================= */}
+<section className="relative isolate left-1/2 w-screen max-w-[2536px] -translate-x-1/2 overflow-hidden bg-white">
+  {/* Full background: 2536 × 1724 */}
+  <div className="relative mx-auto w-full max-w-[2536px] overflow-hidden">
 
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
-            Қазақ ұлттық қыздар педагогикалық университетінің ғалымдары мен AI инженерлері жасаған
-            оқу ортасы. Дайын жауап емес, шешудің қадамдарын түсіндіретін репетитор және жеке
-            кабинетте нәтижеңіздің талдауы.
-          </p>
+    {/* Background grid */}
+    <div
+      className="pointer-events-none absolute inset-0 z-0"
+      style={{
+        backgroundImage: `
+          linear-gradient(to right, #e8ebf2 1px, transparent 1px),
+          linear-gradient(to bottom, #e8ebf2 1px, transparent 1px)
+        `,
+        backgroundSize: "80px 80px",
+        maskImage:
+          "linear-gradient(to bottom, black 0%, black 70%, transparent 100%)",
+      }}
+    />
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Link
-              href="/testent"
-              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 active:scale-[0.98] focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-500/30 sm:text-base"
-            >
-              ҰБТ тест тапсыру
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <button
-              onClick={() => setShowTutor(true)}
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-900 transition hover:border-indigo-300 hover:bg-indigo-50/50 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-500/20 sm:text-base"
-            >
-              <Brain className="h-4 w-4 text-indigo-600" />
-              Репетитормен сөйлесу
-            </button>
-            <Link
-              href="/profile"
-              className="inline-flex items-center justify-center gap-2 px-2 py-2 text-sm font-semibold text-slate-600 transition hover:text-indigo-700 sm:text-base"
-            >
-              <BarChart3 className="h-4 w-4" />
-              Жеке кабинет
-            </Link>
+    {/* Background gradient decorations */}
+    <div className="pointer-events-none absolute -left-40 -top-40 h-[500px] w-[500px] rounded-full bg-blue-200/50 blur-[100px]" />
+
+    <div className="pointer-events-none absolute -right-48 top-[300px] h-[600px] w-[600px] rounded-full bg-indigo-200/40 blur-[120px]" />
+
+    <div className="pointer-events-none absolute bottom-0 left-1/3 h-[450px] w-[650px] rounded-full bg-purple-100/50 blur-[120px]" />
+
+    {/* Animated shapes */}
+    <div
+      className="pointer-events-none absolute inset-0 z-0"
+      aria-hidden="true"
+    >
+      {/* 1. Orange circle */}
+      <div
+        className="hero-motion-shape absolute left-[15%] top-[12%] h-11 w-11 rounded-full border-[6px] border-amber-400"
+        style={{ animation: "heroPathOne 24s linear infinite" }}
+      />
+
+      {/* 2. Blue square */}
+      <div
+        className="hero-motion-shape absolute left-[8%] top-[30%] flex h-11 w-11 items-center justify-center rounded-xl border-[6px] border-blue-400"
+        style={{ animation: "heroPathTwo 20s linear infinite" }}
+      >
+        <div className="h-3 w-3 rounded-full bg-blue-400" />
+      </div>
+
+      {/* 3. Purple square */}
+      <div
+        className="hero-motion-shape absolute right-[14%] top-[15%] flex h-11 w-11 items-center justify-center rounded-xl border-[6px] border-purple-400"
+        style={{ animation: "heroPathThree 26s linear infinite" }}
+      >
+        <div className="h-3 w-3 rounded bg-purple-500" />
+      </div>
+
+      {/* 4. Mint square */}
+      <div
+        className="hero-motion-shape absolute left-[10%] top-[65%] h-10 w-10 rounded-lg border-[6px] border-emerald-400"
+        style={{ animation: "heroPathThree 22s linear infinite reverse" }}
+      />
+
+      {/* 5. Small cyan circle */}
+      <div
+        className="hero-motion-shape absolute right-[22%] top-[34%] h-7 w-7 rounded-full bg-cyan-400"
+        style={{ animation: "heroPathOne 18s linear infinite reverse" }}
+      />
+
+      {/* 6. Violet circle */}
+      <div
+        className="hero-motion-shape absolute right-[10%] bottom-[22%] h-12 w-12 rounded-full border-[7px] border-violet-300"
+        style={{ animation: "heroPathTwo 28s linear infinite" }}
+      />
+    </div>
+
+    {/* Animation keyframes */}
+    <style>{`
+      @keyframes heroPathOne {
+        0%, 100% {
+          transform: translate(0, 0);
+        }
+        25% {
+          transform: translate(160px, 0);
+        }
+        50% {
+          transform: translate(160px, 160px);
+        }
+        75% {
+          transform: translate(0, 160px);
+        }
+      }
+
+      @keyframes heroPathTwo {
+        0%, 100% {
+          transform: translate(0, 0);
+        }
+        20% {
+          transform: translate(80px, 0);
+        }
+        40% {
+          transform: translate(80px, -160px);
+        }
+        60% {
+          transform: translate(240px, -160px);
+        }
+        80% {
+          transform: translate(240px, 0);
+        }
+      }
+
+      @keyframes heroPathThree {
+        0%, 100% {
+          transform: translate(0, 0);
+        }
+        25% {
+          transform: translate(-160px, 0);
+        }
+        50% {
+          transform: translate(-160px, 160px);
+        }
+        75% {
+          transform: translate(0, 160px);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .hero-motion-shape {
+          animation: none !important;
+        }
+      }
+    `}</style>
+
+    {/* Main content */}
+    <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-5 pb-24 pt-12 text-center sm:px-8 sm:pt-16 lg:pt-20">
+
+      {/* Heading */}
+      <h1 className="mt-8 max-w-5xl text-[clamp(2.6rem,5vw,5.8rem)] font-bold leading-[1.12] tracking-[-0.055em] text-[#1d2029] pt-14">
+        ҰБТ-ға дайындықтың{" "}
+        <span className="bg-gradient-to-r from-indigo-600 via-blue-600 to-sky-500 bg-clip-text text-transparent">
+          дербес AI-агенті
+        </span>
+      </h1>
+
+      {/* Description */}
+      
+      <p className="mt-6 max-w-4xl text-base leading-[1.25] text-slate-500 sm:text-xl lg:text-2xl">
+        Қазақ ұлттық қыздар педагогикалық университетінің
+        студенттері жасаған AI негізіндегі ақылды оқу платформасы.
+        AI-репетитор есептерді қадамдап түсіндіріп,
+        оқу нәтижелеріңізді талдайды.
+      </p>
+
+
+      
+{/* Buttons */}
+<div className="mt-8 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
+
+  {/* Primary Button */}
+  <Link
+    href="/testent"
+    className="group inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-[15px] bg-indigo-600 px-6 font-['Inter',sans-serif] text-[14px] font-bold uppercase tracking-[1px] text-white transition-opacity hover:opacity-90 sm:w-auto"
+  >
+    ҰБТ тест тапсыру
+    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+  </Link>
+
+  {/* AI Tutor Button */}
+  <button
+    type="button"
+    onClick={() => setShowTutor(true)}
+    className="inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-[15px] border border-slate-200 bg-white px-6 font-['Inter',sans-serif] text-[14px] font-bold uppercase tracking-[1px] text-slate-800 transition-all hover:border-indigo-300 hover:bg-indigo-50 sm:w-auto"
+  >
+    <Brain className="h-4 w-4 text-indigo-600" />
+    Репетитормен сөйлесу
+  </button>
+
+  
+
+</div>
+
+
+      {/* Feature chips */}
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        {[
+          "140 баллдық жаңа тест базасы",
+          "Қателерді AI арқылы талдау",
+          "QYZPU гранттар калькуляторы",
+        ].map((text) => (
+          <div
+            key={text}
+            className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 px-5 py-3 text-sm font-medium text-slate-600 shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-md"
+          >
+            <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
+            {text}
           </div>
+        ))}
+      </div>
+    </div>
 
-          <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-slate-600">
-            {[
-              '140 баллдық жаңа тест базасы',
-              'Қателерді AI арқылы талдау',
-              'QYZPU гранттар калькуляторы',
-            ].map((t) => (
-              <li key={t} className="flex items-center gap-1.5">
-                <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
-                {t}
-              </li>
-            ))}
-          </ul>
-        </div>
+    {/* Bottom soft fade */}
+    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white via-white/70 to-transparent" />
+  </div>
+</section>
 
-        {/* Демонстрация репетитора: шешім қадамдары бірінен соң бірі шығады */}
-        <div
-          className="min-w-0 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60"
-          role="img"
-          aria-label="ZERDE AI репетиторының диалог үлгісі: квадрат теңдеуді қадамдап шешу"
-        >
-          <div className="flex items-center gap-3 border-b border-slate-100 px-5 py-3.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-600 text-white">
-              <Bot className="h-4 w-4" />
-            </div>
-            <div className="min-w-0">
-              <p className="text-sm font-semibold text-slate-900">ZERDE AI Репетитор</p>
-              <p className="flex items-center gap-1.5 text-xs text-slate-500">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                онлайн
-              </p>
-            </div>
-          </div>
-
-          <div className="space-y-3 bg-slate-50/70 p-5" aria-hidden="true">
-            <div className="flex justify-end">
-              <p className="max-w-[85%] rounded-2xl rounded-br-md bg-indigo-600 px-4 py-2.5 text-sm text-white">
-                x² − 5x + 6 = 0 теңдеуін қалай шешемін?
-              </p>
-            </div>
-
-            <div className="max-w-[92%] space-y-2 rounded-2xl rounded-bl-md bg-white p-4 text-sm text-slate-800 shadow-sm ring-1 ring-slate-100">
-              <p className="demo-step" style={{ animationDelay: '0.3s' }}>
-                Бұл квадрат теңдеу. Дискриминант арқылы шығарамыз:
-              </p>
-              {DEMO_STEPS.map((s, i) => (
-                <div
-                  key={s.title}
-                  className="demo-step rounded-xl bg-slate-50 px-3 py-2"
-                  style={{ animationDelay: `${0.9 + i * 0.8}s` }}
-                >
-                  <p className="text-xs font-semibold text-indigo-700">{s.title}</p>
-                  <p className="mt-0.5 [overflow-wrap:anywhere] font-medium tabular-nums">{s.body}</p>
-                </div>
-              ))}
-              <p
-                className="demo-step font-semibold text-emerald-700"
-                style={{ animationDelay: `${0.9 + DEMO_STEPS.length * 0.8}s` }}
-              >
-                Жауабы: x = 2 және x = 3
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ============================= STATS ============================= */}
       <section

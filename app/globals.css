@@ -147,3 +147,18 @@ h1, h2, h3 {
 .animate-fadeIn {
   animation: fadeIn .5s ease;
 }
+/* body {
+  background:
+    radial-gradient(60% 50% at 25% 15%, rgba(105,96,197,0.25), transparent 70%),
+    radial-gradient(50% 45% at 80% 85%, rgba(168,85,247,0.20), transparent 70%),
+    linear-gradient(135deg, #E8E6FC 0%, #DCD8F9 50%, #CECAFA 100%);
+  background-attachment: fixed;
+  min-height: 100dvh;
+}
+.dark body {
+  background:
+    radial-gradient(60% 50% at 25% 15%, rgba(99,102,241,0.15), transparent 70%),
+    radial-gradient(50% 45% at 80% 85%, rgba(168,85,247,0.12), transparent 70%),
+    linear-gradient(135deg, #020617 0%, #1b1838 50%, #0b0a1a 100%);
+  background-attachment: fixed;
+} */
