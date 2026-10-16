@@ -6,9 +6,6 @@ import {
   FaWhatsapp,
 } from "react-icons/fa";
 import {
-  ArrowRight,
-  Brain,
-  GraduationCap,
   Mail,
   Phone,
 } from "lucide-react";
@@ -25,10 +22,8 @@ export default function Footer() {
     <footer className="w-full bg-white px-3 pb-3 pt-8 sm:px-5 sm:pb-5">
       <div className="mx-auto max-w-[2520px] overflow-hidden rounded-[28px] bg-indigo-500 text-white sm:rounded-[26px]">
 
-       
-
         {/* ================= MAIN FOOTER ================= */}
-        <div className="grid gap-12 px-6 py-14 sm:px-12 lg:grid-cols-[1.5fr_1fr_1fr] lg:gap-16 lg:px-20">
+        <div className="mx-auto grid w-full max-w-[1200px] grid-cols-1 gap-12 px-6 py-14 sm:px-12 md:grid-cols-3 md:gap-16 lg:px-8">
 
           {/* Brand */}
           <div>
@@ -37,7 +32,6 @@ export default function Footer() {
               className={`${fredoka.className} inline-flex items-center text-[#ffffff] text-[32px] font-bold tracking-tight no-underline pr-8`}
             >
               ZERDE
-              
             </Link>
 
             <p className="mt-5 max-w-sm text-sm leading-[1.8] text-[#E3D9FF]">
@@ -96,6 +90,7 @@ export default function Footer() {
                 +7 (727) 237-00-95
               </a>
 
+              {/* Social media */}
               <div className="flex items-center gap-3 pt-3">
                 <Link
                   href="https://instagram.com"
@@ -134,13 +129,12 @@ export default function Footer() {
         {/* ================= BOTTOM ================= */}
         <div className="mx-6 h-px bg-white/20 sm:mx-12 lg:mx-20" />
 
-        <div className="flex flex-col items-center justify-between gap-4 px-6 py-7 sm:px-12 md:flex-row lg:px-20">
-          <p className="text-center text-xs text-[#D6C7F7]">
+        <div className="mx-auto w-full max-w-[1200px] px-6 py-7 sm:px-12 lg:px-8">
+          <p className="text-center text-xs text-[#D6C7F7] md:translate-x-5 md:text-left">
             © 2026 Zerde Educational Systems. Барлық құқықтар қорғалған.
           </p>
-
-          
         </div>
+
       </div>
     </footer>
   );
