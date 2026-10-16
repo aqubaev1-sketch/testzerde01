@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -71,6 +71,8 @@ export function SignupForm({
 }: React.ComponentProps<"div">) {
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -133,19 +135,7 @@ export function SignupForm({
       <div className="w-full">
         {/* Тақырып */}
         <div className="mb-8 text-center">
-          <h1
-            className="
-              mb-2
-              text-3xl
-              font-bold
-              uppercase
-              tracking-tight
-              text-[#1b1b1b]
-              font-['Space_Grotesk',sans-serif]
-            "
-          >
-            Тіркелу
-          </h1>
+          
 
           <p className="text-sm text-[#6a7282]">
             Аккаунт құрып, ҰБТ-ға дайындықты бастаңыз
@@ -277,8 +267,9 @@ export function SignupForm({
                   </FormLabel>
 
                   <FormControl>
-                    <Input
-                      type="password"
+                    <div className="relative">
+                      <Input
+                        type={showPassword ? "text" : "password"}
                       placeholder="••••••••"
                       autoComplete="new-password"
                       {...field}
@@ -288,6 +279,7 @@ export function SignupForm({
                         border-[#d1d5db]
                         bg-white
                         px-4
+                        pr-11
                         text-sm
                         text-[#1b1b1b]
                         shadow-none
@@ -297,7 +289,17 @@ export function SignupForm({
                         focus:ring-0
                         transition-colors
                       "
-                    />
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6a7282] transition-colors hover:text-[#1b1b1b]"
+                        aria-label={showPassword ? "Құпиясөзді жасыру" : "Құпиясөзді көрсету"}
+                        aria-pressed={showPassword}
+                      >
+                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </button>
+                    </div>
                   </FormControl>
 
                   <FormMessage className="text-xs" />
@@ -326,8 +328,9 @@ export function SignupForm({
                   </FormLabel>
 
                   <FormControl>
-                    <Input
-                      type="password"
+                    <div className="relative">
+                      <Input
+                        type={showConfirmPassword ? "text" : "password"}
                       placeholder="••••••••"
                       autoComplete="new-password"
                       {...field}
@@ -337,6 +340,7 @@ export function SignupForm({
                         border-[#d1d5db]
                         bg-white
                         px-4
+                        pr-11
                         text-sm
                         text-[#1b1b1b]
                         shadow-none
@@ -346,7 +350,17 @@ export function SignupForm({
                         focus:ring-0
                         transition-colors
                       "
-                    />
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword((prev) => !prev)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#6a7282] transition-colors hover:text-[#1b1b1b]"
+                        aria-label={showConfirmPassword ? "Құпиясөзді жасыру" : "Құпиясөзді көрсету"}
+                        aria-pressed={showConfirmPassword}
+                      >
+                        {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </button>
+                    </div>
                   </FormControl>
 
                   <FormMessage className="text-xs" />

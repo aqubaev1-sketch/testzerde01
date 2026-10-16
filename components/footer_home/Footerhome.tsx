@@ -48,7 +48,7 @@ export default function FooterHome() {
             >
               <Brain className="h-4 w-4" />
               AI репетитор
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              
             </Link>
 
             <Link

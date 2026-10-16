@@ -24,6 +24,7 @@ import {
 import { signInUser } from "@/server/users";
 import { authClient } from "@/lib/auth-client";
 
+
 const formSchema = z.object({
   email: z
     .string()
@@ -128,19 +129,7 @@ export function LoginForm({
       <div className="w-full">
         {/* Тақырып */}
         <div className="mb-8 text-center">
-          <h1
-            className="
-              mb-2
-              text-3xl
-              font-bold
-              uppercase
-              tracking-tight
-              text-[#1b1b1b]
-              font-['Space_Grotesk',sans-serif]
-            "
-          >
-            Кіру
-          </h1>
+          
 
           <p className="text-sm text-[#6a7282]">
             Профильге кіру және ҰБТ-ға дайындықты жалғастыру үшін
