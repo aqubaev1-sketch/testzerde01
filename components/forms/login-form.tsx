@@ -374,20 +374,7 @@ export function LoginForm({
             : "Google арқылы кіру"}
         </button>
 
-        {/* Тіркелу */}
-        <p className="mt-8 text-center text-sm text-[#6a7282]">
-          Аккаунтыңыз жоқ па?{" "}
-          <Link
-            href="/signup"
-            className="
-              font-bold
-              text-[#1b1b1b]
-              hover:underline
-            "
-          >
-            Тіркелу
-          </Link>
-        </p>
+        
       </div>
     </div>
   );

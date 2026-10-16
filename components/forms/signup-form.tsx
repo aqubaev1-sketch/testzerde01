@@ -459,20 +459,7 @@ export function SignupForm({
             : "Google арқылы тіркелу"}
         </button>
 
-        {/* Кіру */}
-        <p className="mt-8 text-center text-sm text-[#6a7282]">
-          Аккаунтыңыз бар ма?{" "}
-          <Link
-            href="/login"
-            className="
-              font-bold
-              text-[#1b1b1b]
-              hover:underline
-            "
-          >
-            Кіру
-          </Link>
-        </p>
+        
       </div>
     </div>
   );
