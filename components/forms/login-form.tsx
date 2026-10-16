@@ -182,7 +182,7 @@ export function LoginForm({
                       {...field}
                       className="
                         h-12
-                        rounded-[4px]
+                        rounded-[10px]
                         border-[#d1d5db]
                         bg-white
                         px-4
@@ -245,7 +245,7 @@ export function LoginForm({
                         {...field}
                         className="
                           h-12
-                          rounded-[4px]
+                          rounded-[10px]
                           border-[#d1d5db]
                           bg-white
                           px-4
@@ -303,8 +303,8 @@ export function LoginForm({
                 mt-1
                 h-12
                 w-full
-                rounded-[4px]
-                bg-indigo-600
+                rounded-[10px]
+                bg-indigo-500
                 text-[14px]
                 font-bold
                 uppercase
@@ -360,7 +360,7 @@ export function LoginForm({
             items-center
             justify-center
             gap-3
-            rounded-[4px]
+            rounded-[10px]
             border
             border-[#6960C5]
             bg-white

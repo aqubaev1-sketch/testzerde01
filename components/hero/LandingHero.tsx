@@ -176,7 +176,7 @@ export function LandingHero() {
     `}</style>
 
     {/* Main content */}
-    <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-5 pb-24 pt-12 text-center sm:px-8 sm:pt-16 lg:pt-20">
+    <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-5 pb-10 pt-12 text-center sm:px-8 sm:pt-16 lg:pt-20">
 
       {/* Heading */}
       <h1 className="mt-8 max-w-5xl text-[clamp(2.6rem,5vw,5.8rem)] font-bold leading-[1.12] tracking-[-0.055em] text-[#1d2029] pt-14">
@@ -203,7 +203,7 @@ export function LandingHero() {
   {/* Primary Button */}
   <Link
     href="/testent"
-    className="group inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-[15px] bg-indigo-600 px-6 font-['Inter',sans-serif] text-[14px] font-bold uppercase tracking-[1px] text-white transition-opacity hover:opacity-90 sm:w-auto"
+    className="group inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-[15px] bg-indigo-500 px-6 font-['Inter',sans-serif] text-[14px] font-bold uppercase tracking-[1px] text-white transition-opacity hover:opacity-90 sm:w-auto"
   >
     ҰБТ тест тапсыру
     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -278,7 +278,7 @@ export function LandingHero() {
           {/* Репетитор — үлкен карточка */}
           <div className="flex flex-col justify-between gap-6 rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 md:col-span-4">
             <div className="space-y-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-600 text-white">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-500 text-white">
                 <Brain className="h-5 w-5" />
               </div>
               <h3 className="text-xl font-bold text-slate-900">ZERDE AI-репетитор</h3>
@@ -325,7 +325,7 @@ export function LandingHero() {
         </div>
       </section>
 
-      {/* ============================= QYZPU ============================= */}
+      {/* ============================= QYZPU =============================
       <section className="rounded-3xl bg-indigo-950 p-8 text-white sm:p-12">
         <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
           <div className="max-w-2xl space-y-4">
@@ -354,7 +354,7 @@ export function LandingHero() {
             </Link>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ============================= ТЬЮТОР МОДАЛКАСЫ ============================= */}
       {showTutor && (
@@ -371,7 +371,7 @@ export function LandingHero() {
           >
             <div className="flex shrink-0 items-center justify-between gap-3 border-b border-slate-100 px-5 py-3.5">
               <div className="flex min-w-0 items-center gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-white">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-indigo-500 text-white">
                   <Bot className="h-4 w-4" />
                 </div>
                 <p className="truncate text-sm font-semibold text-slate-900">ZERDE AI Репетитор</p>

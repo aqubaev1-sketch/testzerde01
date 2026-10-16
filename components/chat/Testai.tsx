@@ -27,7 +27,7 @@ interface QuizData {
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
 
-const SUGGESTIONS = ['Қазақ хандығы', 'Пропорция', 'Қазақстан тарихы', 'Алгебра'];
+const SUGGESTIONS = ['Қазақ хандығы', 'Физика: Оптика', 'Қазақстан тарихы', 'Алгебра'];
 
 const LOADING_STEPS = [
   'Тақырып талданып жатыр',
@@ -254,67 +254,118 @@ export default function AiTutorQuiz() {
         }
       `}</style>
 
-      {/* ============ HEADER ============ */}
-      <header className="mb-6">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
-          ЕНТ тест генераторы
-        </h1>
-        <p className="mt-1.5 text-sm text-slate-500">
-          Тақырыпты жазыңыз — AI Tutor 10 сұрақтан тұратын тест жасайды.
-        </p>
-      </header>
+     
+{/* ============ HEADER ============ */}
+<header className="mb-4 px-1 pt-0">
 
-      {/* ============ INPUT ============ */}
-      {!quiz && !loading && (
-        <section className="rounded-3xl border border-slate-200 bg-white p-4 sm:p-6 shadow-sm">
-          <label htmlFor="topic" className="block text-sm font-semibold text-slate-800 mb-2">
-            Тест тақырыбы
-          </label>
-          <div className="flex flex-col sm:flex-row gap-2">
-            <div className="relative flex-1 min-w-0">
-              <Search className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-              <input
-                id="topic"
-                type="text"
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && generateQuiz()}
-                placeholder="Мысалы: Қазақ хандығы"
-                className="w-full min-w-0 pl-10 pr-3 py-3 text-sm sm:text-base rounded-xl border border-slate-200 bg-slate-50 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
-              />
-            </div>
+ 
+
+  {/* Title
+  <h1 className="max-w-xl text-3xl font-extrabold leading-[1.15] tracking-[-0.04em] text-slate-900 sm:text-4xl lg:text-[42px]">
+    Кез келген тақырыптан{" "}
+    <span className="text-zinc-800">
+      AI тест жасаңыз
+    </span>
+  </h1> */}
+
+  {/* Description */}
+  <p className="mt-4 max-w-lg text-sm leading-[1.6] text-slate-500 sm:text-base">
+    Тақырыпты енгізіңіз — жасанды интеллект сізге
+    10 сұрақтан тұратын тест пен түсіндірме дайындайды.
+  </p>
+</header>
+
+{/* ============ INPUT ============ */}
+{!quiz && !loading && (
+  <section className="relative rounded-[20px] border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+
+    {/* Label */}
+    <div className="mb-3 flex items-center justify-between gap-2">
+      <label
+        htmlFor="topic"
+        className="text-sm font-bold text-slate-800"
+      >
+        Тест тақырыбы
+      </label>
+
+    
+    </div>
+
+    {/* Input and button */}
+    <div className="flex flex-col gap-3 sm:flex-row">
+
+      {/* Search input */}
+      <div className="group relative min-w-0 flex-1">
+        <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400 transition-colors group-focus-within:text-indigo-500" />
+
+        <input
+          id="topic"
+          type="text"
+          value={topic}
+          onChange={(e) => setTopic(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") generateQuiz();
+          }}
+          placeholder="Мысалы: Қазақ хандығы"
+          className="h-[56px] w-full min-w-0 rounded-[15px] border border-slate-200 bg-slate-50 pl-12 pr-4 text-sm font-medium text-slate-800 outline-none transition-all duration-300 placeholder:text-slate-400 hover:border-indigo-200 focus:border-indigo-400 focus:bg-white focus:ring-4 focus:ring-indigo-500/10 sm:text-base"
+        />
+      </div>
+
+      {/* Generate button */}
+      <button
+        type="button"
+        onClick={() => generateQuiz()}
+        disabled={!topic.trim() || loading}
+        className="group inline-flex h-[56px] shrink-0 items-center justify-center gap-2 rounded-[15px] bg-indigo-600 px-7 font-['Inter',sans-serif] text-[13px] font-bold uppercase tracking-[0.8px] text-white shadow-sm transition-all duration-300 hover:bg-indigo-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-slate-300"
+      >
+        <Sparkles className="h-4 w-4 transition-transform group-hover:rotate-12" />
+        Тест жасау
+        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+      </button>
+    </div>
+
+    {/* Suggestions */}
+    <div className="mt-6">
+      <p className="mb-3 text-xs font-semibold text-slate-400">
+        Ұсынылатын тақырыптар
+      </p>
+
+      <div className="flex flex-wrap gap-2">
+        {SUGGESTIONS.map((s, i) => {
+          const styles = [
+            "border-violet-100 bg-violet-50 text-violet-700 hover:border-violet-300 hover:bg-violet-100",
+            "border-sky-100 bg-sky-50 text-sky-700 hover:border-sky-300 hover:bg-sky-100",
+            "border-emerald-100 bg-emerald-50 text-emerald-700 hover:border-emerald-300 hover:bg-emerald-100",
+            "border-amber-100 bg-amber-50 text-amber-700 hover:border-amber-300 hover:bg-amber-100",
+          ];
+
+          return (
             <button
-              onClick={() => generateQuiz()}
-              disabled={!topic.trim()}
-              className="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 active:scale-[0.98] disabled:bg-slate-300 disabled:cursor-not-allowed transition"
+              key={s}
+              type="button"
+              onClick={() => generateQuiz(s)}
+              disabled={loading}
+              className={`rounded-full border px-4 py-2 text-xs font-semibold transition-all duration-200 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 ${styles[i % styles.length]}`}
             >
-              <Sparkles className="w-4 h-4" />
-              Тест жасау
+              {s}
             </button>
-          </div>
+          );
+        })}
+      </div>
+    </div>
 
-          <div className="mt-4 flex flex-wrap gap-2">
-            {SUGGESTIONS.map((s) => (
-              <button
-                key={s}
-                onClick={() => generateQuiz(s)}
-                className="rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-medium text-slate-600 hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 transition"
-              >
-                {s}
-              </button>
-            ))}
-          </div>
+    {/* Error message */}
+    {error && (
+      <p
+        role="alert"
+        className="mt-5 rounded-[14px] border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700"
+      >
+        {error}
+      </p>
+    )}
+  </section>
+)}
 
-          {error && (
-            <p
-              role="alert"
-              className="mt-4 rounded-xl border border-red-100 bg-red-50 px-3.5 py-2.5 text-sm text-red-700"
-            >
-              {error}
-            </p>
-          )}
-        </section>
-      )}
 
       {/* ============ LOADING ============ */}
       {loading && <AnswerSheetLoader topic={topic} />}
@@ -469,7 +520,7 @@ export default function AiTutorQuiz() {
               <button
                 onClick={goNext}
                 aria-label="Келесі"
-                className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 active:scale-[0.98] transition"
+                className="inline-flex items-center gap-2 rounded-xl bg-indigo-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 active:scale-[0.98] transition"
               >
                 Келесі
                 <ArrowRight className="w-4 h-4" />
@@ -535,7 +586,7 @@ export default function AiTutorQuiz() {
               </button>
               <button
                 onClick={resetToStart}
-                className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 transition"
+                className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 transition"
               >
                 <RotateCcw className="w-4 h-4" />
                 Жаңа тест

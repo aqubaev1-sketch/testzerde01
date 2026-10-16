@@ -284,7 +284,7 @@ export default async function ProfilePage() {
               <p className="text-sm text-slate-500">Сіз әлі тест тапсырмадыңыз.</p>
               <Link
                 href="/testent"
-                className="rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700"
+                className="rounded-xl bg-indigo-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700"
               >
                 Тестті бастау
               </Link>

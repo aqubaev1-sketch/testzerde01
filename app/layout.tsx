@@ -7,6 +7,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Analytics } from "@vercel/analytics/react";
 import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
+import ConditionalFooter from "@/components/footer/ConditionalFooter";
 import 'katex/dist/katex.min.css';
 
 
@@ -46,7 +47,7 @@ export default function RootLayout({
             <Header/>
             <Toaster />
             {children}
-            <Footer/>
+            <ConditionalFooter />
           </ThemeProvider>
         </NuqsAdapter>
         <Analytics />

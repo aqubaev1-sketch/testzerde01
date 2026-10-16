@@ -1,102 +1,146 @@
-import Link from 'next/link';
-import { FaInstagram, FaTelegramPlane, FaWhatsapp } from 'react-icons/fa';
+
+import Link from "next/link";
+import {
+  FaInstagram,
+  FaTelegramPlane,
+  FaWhatsapp,
+} from "react-icons/fa";
+import {
+  ArrowRight,
+  Brain,
+  GraduationCap,
+  Mail,
+  Phone,
+} from "lucide-react";
+import { Fredoka } from "next/font/google";
+
+const fredoka = Fredoka({
+  subsets: ["latin"],
+  weight: "700",
+  display: "swap",
+});
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-[#e5e7eb] pt-14 pb-8 mt-auto">
-      <div className="container">
+    <footer className="w-full bg-white px-3 pb-3 pt-8 sm:px-5 sm:pb-5">
+      <div className="mx-auto max-w-[1800px] overflow-hidden rounded-[28px] bg-indigo-500 text-white sm:rounded-[26px]">
 
-        {/* Негізгі 3 бағанды бөлік */}
-        <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr] gap-10 md:gap-12 pb-12">
+       
 
-          {/* 1. Zerde туралы ақпарат */}
+        {/* ================= MAIN FOOTER ================= */}
+        <div className="grid gap-12 px-6 py-14 sm:px-12 lg:grid-cols-[1.5fr_1fr_1fr] lg:gap-16 lg:px-20">
+
+          {/* Brand */}
           <div>
-            <h3 className="text-[#1b1b1b] font-extrabold text-xl tracking-tight uppercase mb-4 font-['Space_Grotesk',sans-serif]">
+            <Link
+              href="/"
+              className={`${fredoka.className} inline-flex items-center text-[#ffffff] text-[32px] font-bold tracking-tight no-underline pr-8`}
+            >
               ZERDE
-            </h3>
-            <p className="text-[#6a7282] text-sm leading-relaxed max-w-sm">
-              Заманауи IT-технологияларды, деректер қорын және бағдарламалауды жылдам әрі сапалы меңгеруге арналған интерактивті білім беру платформасы.
+              
+            </Link>
+
+            <p className="mt-5 max-w-sm text-sm leading-[1.8] text-[#E3D9FF]">
+              Қазақ ұлттық қыздар педагогикалық университетінің
+              студенттері жасаған AI негізіндегі ақылды оқу
+              платформасы.
             </p>
           </div>
 
-          {/* 2. Карта платформы */}
+          {/* Platform */}
           <div>
-            <h4 className="text-[#1b1b1b] font-bold text-xs uppercase tracking-[1px] mb-5">
-              Карта платформы
-            </h4>
-            <ul className="flex flex-col gap-3">
-              
-              <li>
-                <Link href="/" className="text-[#6a7282] hover:text-[#6960C5] text-sm transition-colors">
-                  AI Chat
-                </Link>
-              </li>
-              <li>
-                <Link href="/support" className="text-[#6a7282] hover:text-[#6960C5] text-sm transition-colors">
-                  Қолдау және кері байланыс
-                </Link>
-              </li>
+            <h3 className="mb-6 text-sm font-bold uppercase tracking-[1px] text-white">
+              Платформа
+            </h3>
+
+            <ul className="space-y-4">
+              {[
+                { label: "Басты бет", href: "/" },
+                { label: "AI репетитор", href: "/testsss" },
+                { label: "ҰБТ тренажері", href: "/testent" },
+                { label: "Жеке кабинет", href: "/profile" },
+                { label: "Қолдау қызметі", href: "/support" },
+              ].map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-[#E3D9FF] transition-colors hover:text-white"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* 3. Контакты */}
+          {/* Contact */}
           <div>
-            <h4 className="text-[#1b1b1b] font-bold text-xs uppercase tracking-[1px] mb-5">
-              Контакты
-            </h4>
-            <ul className="flex flex-col gap-3 text-sm text-[#6a7282]">
-              <li>
-                Email:{' '}
-                <a href="mailto:info@qyzpu.edu.kz" className="hover:text-[#6960C5] transition-colors">
-                  info@qyzpu.edu.kz
-                </a>
-              </li>
-              <li>
-                Тел:{' '}
-                <a href="tel:+77272370095" className="hover:text-[#6960C5] transition-colors">
-                  +7 (727) 237-00-95
-                </a>
-              </li>
-              <li>
-                <div className="flex flex-row gap-3 mt-1">
-                  <Link
-                    href="https://instagram.com"
-                    target="_blank"
-                    aria-label="Instagram"
-                    className="w-10 h-10 rounded-full bg-[#6960C5]/5 text-[#6960C5] flex items-center justify-center hover:bg-[#6960C5]/10 transition-colors"
-                  >
-                    <FaInstagram size={18} />
-                  </Link>
-                  <Link
-                    href="https://t.me"
-                    target="_blank"
-                    aria-label="Telegram"
-                    className="w-10 h-10 rounded-full bg-[#6960C5]/5 text-[#6960C5] flex items-center justify-center hover:bg-[#6960C5]/10 transition-colors"
-                  >
-                    <FaTelegramPlane size={18} />
-                  </Link>
-                  <Link
-                    href="https://wa.me/77471401404"
-                    target="_blank"
-                    aria-label="WhatsApp"
-                    className="w-10 h-10 rounded-full bg-[#6960C5]/5 text-[#6960C5] flex items-center justify-center hover:bg-[#6960C5]/10 transition-colors"
-                  >
-                    <FaWhatsapp size={18} />
-                  </Link>
-                </div>
-              </li>
-            </ul>
-          </div>
+            <h3 className="mb-6 text-sm font-bold uppercase tracking-[1px] text-white">
+              Байланыс
+            </h3>
 
+            <div className="space-y-4">
+              <a
+                href="mailto:info@qyzpu.edu.kz"
+                className="flex items-center gap-3 text-sm text-[#E3D9FF] transition-colors hover:text-white"
+              >
+                <Mail className="h-4 w-4 shrink-0" />
+                info@qyzpu.edu.kz
+              </a>
+
+              <a
+                href="tel:+77272370095"
+                className="flex items-center gap-3 text-sm text-[#E3D9FF] transition-colors hover:text-white"
+              >
+                <Phone className="h-4 w-4 shrink-0" />
+                +7 (727) 237-00-95
+              </a>
+
+              <div className="flex items-center gap-3 pt-3">
+                <Link
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white transition-all hover:-translate-y-1 hover:bg-white/20"
+                >
+                  <FaInstagram size={18} />
+                </Link>
+
+                <Link
+                  href="https://t.me"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Telegram"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white transition-all hover:-translate-y-1 hover:bg-white/20"
+                >
+                  <FaTelegramPlane size={18} />
+                </Link>
+
+                <Link
+                  href="https://wa.me/77471401404"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="WhatsApp"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/10 text-white transition-all hover:-translate-y-1 hover:bg-white/20"
+                >
+                  <FaWhatsapp size={18} />
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Төменгі сызық және копирайт */}
-        <div className="border-t border-[#e5e7eb] pt-8 text-center">
-          <p className="text-[#6a7282] text-xs uppercase tracking-[1.5px]">
-            © 2026 Zerde Educational Systems
+        {/* ================= BOTTOM ================= */}
+        <div className="mx-6 h-px bg-white/20 sm:mx-12 lg:mx-20" />
+
+        <div className="flex flex-col items-center justify-between gap-4 px-6 py-7 sm:px-12 md:flex-row lg:px-20">
+          <p className="text-center text-xs text-[#D6C7F7]">
+            © 2026 Zerde Educational Systems. Барлық құқықтар қорғалған.
           </p>
-        </div>
 
+          
+        </div>
       </div>
     </footer>
   );

@@ -19,6 +19,7 @@ import { Inter } from 'next/font/google';
 import Link from 'next/link';
 import PracticeFeatureSlider from '@/components/card/PracticeFeatureSlider';
 import { LandingHero } from '@/components/hero/LandingHero';
+import FooterHome from '@/components/footer_home/Footerhome';
 
 // Inter — переменный шрифт.
 // subsets:
@@ -54,6 +55,7 @@ export default function Home() {
    <div className="container ">
     <LandingHero/>
    </div>
+   <FooterHome />
    </>
   );
 }
