@@ -47,7 +47,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-5 left-1/2 -translate-x-1/2 w-[calc(100%-20px)] max-w-[1240px] pl-6 pr-1.5 h-[62px] rounded-[20px] z-50 flex items-center bg-white/40 backdrop-blur-md border border-[#C7B8FF]/60 shadow-[0_4px_30px_rgba(124,58,237,0.12)] transition-all duration-300">
+      <header className="fixed top-5 left-1/2 -translate-x-1/2 w-[calc(100%-20px)] max-w-[1240px] pl-6 pr-1.5 h-[62px] rounded-[20px] z-50 flex items-center bg-white/20 backdrop-blur-md border border-[#C7B8FF]/60 shadow-[0_4px_30px_rgba(124,58,237,0.12)] transition-all duration-300">
         <div className="w-full h-full">
           <nav className="grid grid-cols-[auto_1fr_auto] items-center h-full uppercase">
 

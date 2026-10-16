@@ -51,8 +51,6 @@ export default function Footer() {
               {[
                 { label: "Басты бет", href: "/" },
                 { label: "AI репетитор", href: "/testsss" },
-                { label: "ҰБТ тренажері", href: "/testent" },
-                { label: "Жеке кабинет", href: "/profile" },
                 { label: "Қолдау қызметі", href: "/support" },
               ].map((item) => (
                 <li key={item.href}>
