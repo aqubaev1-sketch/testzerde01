@@ -21,6 +21,9 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
+    // Не даём гостям открыть тест или дашборд без cookie сессии.
+    "/dashboard/:path*",
+    "/testent/:path*",
     "/profile/:path*",
     "/admin/:path*",
   ],

@@ -66,9 +66,16 @@ function GoogleIcon() {
 
 export function LoginForm({
   className,
+  callbackUrl: requestedCallbackUrl,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<"div"> & { callbackUrl?: string }) {
   const router = useRouter();
+
+  // Возвращаем только на внутренний путь, чтобы исключить перенаправление на чужой сайт.
+  const callbackUrl =
+    requestedCallbackUrl?.startsWith("/") && !requestedCallbackUrl.startsWith("//")
+      ? requestedCallbackUrl
+      : "/profile";
 
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
@@ -88,7 +95,8 @@ export function LoginForm({
 
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/profile",
+        // После Google-входа пользователь вернётся туда, откуда пришёл.
+        callbackURL: callbackUrl,
       });
     } catch (error) {
       console.error(error);
@@ -108,7 +116,8 @@ export function LoginForm({
 
       if (response.success) {
         toast.success(response.message);
-        router.push("/profile");
+        // После входа возвращаем пользователя к тесту, если его туда перенаправил proxy.
+        router.push(callbackUrl);
         router.refresh();
       } else {
         toast.error(response.message);
