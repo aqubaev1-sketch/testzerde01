@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "questions:check": "node scripts/update-question-options.mjs",
+    "questions:apply": "node scripts/update-question-options.mjs --apply"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

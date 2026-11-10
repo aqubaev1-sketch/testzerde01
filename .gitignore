@@ -26,6 +26,8 @@ pnpm-debug.log*
 # cache
 .cache/
 .turbo/
+*.tsbuildinfo
+work/
 
 # OS
 .DS_Store
