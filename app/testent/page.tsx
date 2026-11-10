@@ -1,5 +1,4 @@
-import { getOrCreateAttempt } from './actions';
-import TestEContent from './TestEContent';
+import TestStart from './TestStart';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -13,7 +12,5 @@ export default async function TestPage() {
     redirect('/login?callbackUrl=/testent');
   }
 
-  const data = await getOrCreateAttempt();
-
-  return <TestEContent initialData={data} />;
+  return <TestStart />;
 }

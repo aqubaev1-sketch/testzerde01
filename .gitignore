@@ -28,6 +28,8 @@ pnpm-debug.log*
 .turbo/
 *.tsbuildinfo
 work/
+.unlazy/
+GATES.md
 
 # OS
 .DS_Store
