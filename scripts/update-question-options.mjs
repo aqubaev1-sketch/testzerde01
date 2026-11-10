@@ -6,7 +6,8 @@ import { neon } from "@neondatabase/serverless";
 const root = process.cwd();
 const envPath = path.join(root, "_env");
 const seedPath = path.join(root, "scripts", "seed.ts");
-const applyChanges = process.argv.includes("--apply");
+const insertMissing = process.argv.includes("--insert-missing");
+const applyChanges = process.argv.includes("--apply") || insertMissing;
 
 function loadDatabaseUrl() {
   if (process.env.DATABASE_URL) return process.env.DATABASE_URL;
@@ -71,6 +72,7 @@ function extractQuestions() {
         });
 
         result.push({
+          seedIndex: result.length,
           subjectId: subject.text,
           questionText: text.text,
           options,
@@ -123,8 +125,8 @@ for (const row of current) {
   const candidates = desiredGroups.get(keyOf(row)) ?? [];
   const currentSignature = optionTextSignature(row.options);
   const targetIndex = candidates.findIndex(
-    (candidate, index) =>
-      !usedTargets.has(`${keyOf(row)}\u0000${index}`) &&
+    (candidate) =>
+      !usedTargets.has(candidate.seedIndex) &&
       optionTextSignature(candidate.options) === currentSignature,
   );
 
@@ -134,11 +136,46 @@ for (const row of current) {
   }
 
   const target = candidates[targetIndex];
-  usedTargets.add(`${keyOf(row)}\u0000${targetIndex}`);
+  usedTargets.add(target.seedIndex);
   updates.push({
     id: row.id,
     options: target.options,
     correctOptionId: target.correctOptionId,
+  });
+}
+
+for (const question of desired) {
+  const ids = question.options.map((option) => option.id);
+  const texts = question.options.map((option) => option.text.trim());
+  if (
+    question.options.length !== 4 ||
+    new Set(ids).size !== 4 ||
+    new Set(texts).size !== 4 ||
+    !ids.includes(question.correctOptionId)
+  ) {
+    problems.push(`invalid options: ${question.subjectId}: ${question.questionText}`);
+  }
+}
+
+const currentKeys = new Set(current.map(keyOf));
+const unusedTargets = desired.filter((question) => !usedTargets.has(question.seedIndex));
+const duplicatesOfExisting = unusedTargets.filter((question) => currentKeys.has(keyOf(question)));
+const insertCandidates = unusedTargets.filter((question) => !currentKeys.has(keyOf(question)));
+const insertKeys = new Set();
+const inserts = [];
+
+for (const question of insertCandidates) {
+  const key = keyOf(question);
+  if (insertKeys.has(key)) {
+    problems.push(`duplicate new question: ${question.subjectId}: ${question.questionText}`);
+    continue;
+  }
+  insertKeys.add(key);
+  inserts.push({
+    subjectId: question.subjectId,
+    questionText: question.questionText,
+    options: question.options,
+    correctOptionId: question.correctOptionId,
   });
 }
 
@@ -150,11 +187,13 @@ const distribution = updates.reduce((counts, row) => {
 console.log(
   JSON.stringify(
     {
-      mode: applyChanges ? "apply" : "dry-run",
+      mode: insertMissing ? "insert-missing" : applyChanges ? "apply" : "dry-run",
       seedQuestions: desired.length,
       databaseQuestions: current.length,
       matchedQuestions: updates.length,
       seedQuestionsNotInDatabase: desired.length - usedTargets.size,
+      duplicatesSkipped: duplicatesOfExisting.length,
+      uniqueQuestionsToInsert: inserts.length,
       distribution,
       problems,
     },
@@ -187,5 +226,15 @@ await sql`
   WHERE question.id = patch.id
 `;
 
+if (insertMissing && inserts.length) {
+  await sql`
+    INSERT INTO questions (subject_id, question_text, options, correct_option_id)
+    SELECT patch."subjectId", patch."questionText", patch.options, patch."correctOptionId"
+    FROM jsonb_to_recordset(${JSON.stringify(inserts)}::jsonb)
+      AS patch("subjectId" text, "questionText" text, options jsonb, "correctOptionId" text)
+  `;
+}
+
 console.log(`Updated ${updates.length} questions.`);
+if (insertMissing) console.log(`Inserted ${inserts.length} new questions.`);
 console.log(`Backup saved to ${backupPath}`);

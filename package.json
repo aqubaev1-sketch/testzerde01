@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint .",
     "questions:check": "node scripts/update-question-options.mjs",
-    "questions:apply": "node scripts/update-question-options.mjs --apply"
+    "questions:apply": "node scripts/update-question-options.mjs --apply",
+    "questions:insert-missing": "node scripts/update-question-options.mjs --insert-missing"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
