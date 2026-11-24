@@ -5,18 +5,64 @@ import { schema } from "@/db/schema";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
+import { render } from "@react-email/render";
+import type { ReactElement } from "react";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const sendAuthEmail = async ({
+    to,
+    subject,
+    email,
+}: {
+    to: string;
+    subject: string;
+    email: ReactElement;
+}) => {
+    const {
+        SMTP_HOST,
+        SMTP_PORT,
+        SMTP_USER,
+        SMTP_PASS,
+        EMAIL_SENDER_NAME,
+        EMAIL_SENDER_ADDRESS,
+    } = process.env;
+
+    if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
+        throw new Error("SMTP_HOST, SMTP_USER and SMTP_PASS must be configured");
+    }
+
+    const port = Number(SMTP_PORT ?? 465);
+    const transporter = nodemailer.createTransport({
+        host: SMTP_HOST,
+        port,
+        secure: port === 465,
+        auth: {
+            user: SMTP_USER,
+            pass: SMTP_PASS,
+        },
+    });
+
+    const [html, text] = await Promise.all([
+        render(email),
+        render(email, { plainText: true }),
+    ]);
+
+    await transporter.sendMail({
+        from: `"${EMAIL_SENDER_NAME ?? "GeoKenistik"}" <${EMAIL_SENDER_ADDRESS ?? SMTP_USER}>`,
+        to,
+        subject,
+        html,
+        text,
+    });
+};
 
 export const auth = betterAuth({
     emailVerification: {
         sendVerificationEmail: async ({ user, url }) => {
-            await resend.emails.send({
-                from: 'NoteForge <noteforge@orcdev.com>',
-                to: [user.email],
-                subject: 'Verify your email address',
-                react: VerificationEmail({ userName: user.name, verificationUrl: url }),
+            await sendAuthEmail({
+                to: user.email,
+                subject: "Электрондық поштаңызды растаңыз",
+                email: VerificationEmail({ userName: user.name, verificationUrl: url }),
             });
         },
         sendOnSignUp: true,
@@ -30,11 +76,10 @@ export const auth = betterAuth({
     emailAndPassword: {
         enabled: true,
         sendResetPassword: async ({ user, url }) => {
-            await resend.emails.send({
-                from: 'NoteForge <noteforge@orcdev.com>',
-                to: [user.email],
-                subject: 'Reset your password',
-                react: PasswordResetEmail({ userName: user.name, resetUrl: url, requestTime: new Date().toLocaleString() }),
+            await sendAuthEmail({
+                to: user.email,
+                subject: "Құпиясөзді қалпына келтіру",
+                email: PasswordResetEmail({ userName: user.name, resetUrl: url, requestTime: new Date().toLocaleString() }),
             });
         },
     },

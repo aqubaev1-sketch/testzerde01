@@ -23,6 +23,7 @@
     "@radix-ui/react-slot": "^1.2.4",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@react-email/components": "^1.0.4",
+    "@react-email/render": "^2.3.1",
     "@tiptap/extension-document": "^3.15.3",
     "@tiptap/extension-paragraph": "^3.15.3",
     "@tiptap/extension-text": "^3.15.3",
